@@ -18,8 +18,6 @@ const Login = Logins(sequelize)
 
 
 //Relaciones
-// Sale.belongsToMany(Product, { through: "Product_Sale" });
-// Product.belongsToMany(Sale, { through: "Product_Sale" }); // se genera tabla intermedia
 
 Travel.hasMany(Excursion)
 Excursion.belongsTo (Travel) // coloca viajeId en Excursion
@@ -33,14 +31,6 @@ Passenger.belongsTo (Contract) // coloca Contract_id en Passenger
 Passenger.hasMany(Login)
 Login.belongsTo (Passenger) // coloca PassengerId en Login
 
-// Product.hasMany(Move)
-// Move.belongsTo (Product) // coloca productId en Move
-
-// Purchase.hasMany(Move)
-// Move.belongsTo (Customer) // coloca customerId en Move
-
-// Provider.hasMany(ProviderList)
-// ProviderList.belongsTo (Provider) // coloca providerId en ProviderList
 
 module.exports = {
     conn: sequelize,

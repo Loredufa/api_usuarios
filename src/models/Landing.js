@@ -12,17 +12,12 @@ module.exports = function(sequelize) {
     imagen: {
       type: DataTypes.STRING,
       allowNull: false,
-      },
-    
-    textoImagen: {
+      },    
+    texto: {
       type:DataTypes.STRING,
       allowNull:true,
     },
-    video: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
-    textoVideo: {
+    activo: {
       type:DataTypes.STRING,
       allowNull:true,
     }
