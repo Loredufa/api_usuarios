@@ -2,7 +2,7 @@ const { Router } = require('express');
 const axios = require ('axios');
 const router = Router();
 
-const viajeRoute = require('./getViaje');
+const viajeRoute = require('./getUsuario');
 const cargaRoute =require('./postCarga');
 
 

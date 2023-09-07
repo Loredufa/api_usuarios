@@ -29,6 +29,26 @@ const getUsuarioById = async (req, res, next) => {
 }
 }
 
+const getUsuarioByLogin = async (req, res, next) => {
+  try {
+    const usuario = req.params.usuario
+    const password = req.params.password
+    const login = await Login.findOne({
+    where: {
+      usuario,
+      password
+    }
+  })
+  if (login) {
+    res.send(login);
+  } else {
+    res.status(404).send({ mensaje: "Usuario no encontrado" });
+  }
+  } catch (error) { console.log("Algo salio mal: ", error); 
+    throw error; //lanzo el error
+}
+}
+
 const putUsuario = async (req, res) => {
   try {
     const id = req.params.id
@@ -60,6 +80,7 @@ module.exports = {
     getUsuarioById,
     addUsuario,
     putUsuario,
-    deleteUsuario
+    deleteUsuario,
+    getUsuarioByLogin
 
 }

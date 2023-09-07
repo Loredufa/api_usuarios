@@ -14,15 +14,18 @@ POST: http://localhost:4002/usuarios
 
         body: {
             "nombre":"Teresa",
-            "apellido": "Kimoto",
+            "usuario": "Kimoto",
             "email": "terek@gmail.com",  **obligatorio**
-            "numPas":"87765",
+            "contrato":"87765",
             "password":"6654547",   **obligatorio y único**
             "rol": "Padre"   **obligatorio**
             }
 
 
 GET by id: http://localhost:4002/usuarios/id
+
+
+GET to Login: http://localhost:4002/usuarios/usuario/password
 
 
 PUT http://localhost:4002/usuarios/id
@@ -40,23 +43,23 @@ DELETE http://localhost:4002/usuarios/id
 POST http://localhost:4002/carga
 body: [{
   "nombre":"Pepe",
-  "apellido": "Botella",
+  "usuario": "Botella",
   "email": "bote@gmail.com",
-  "numPas":"87766",
+  "contrato":"87766",
   "password":"5656565",
   "rol": "Pasajero"
 }, {
   "nombre":"Romina",
-  "apellido": "Jaz",
+  "apeusuariollido": "Jaz",
   "email": "romi@gmail.com",
-  "numPas":"87767",
+  "contrato":"87767",
   "password":"0909090",
   "rol": "Padre"
 }, {
   "nombre":"Vanesa",
-  "apellido": "Pez",
+  "usuario": "Pez",
   "email": "vane@gmail.com",
-  "numPas":"87768",
+  "contrato":"87768",
   "password":"1212121",
   "rol": "Pasajero"
 }]

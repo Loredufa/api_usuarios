@@ -9,7 +9,7 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       primaryKey: true
     },
-    Hotel: {
+    hotel: {
       type: DataTypes.STRING,
       allowNull: false,
       },

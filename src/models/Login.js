@@ -9,27 +9,26 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       primaryKey: true
     },
-    nombre: {
+    usuario: {
       type: DataTypes.STRING,
       allowNull: false,
-      },
-    
-    apellido: {
+      },    
+    nombre: {
       type:DataTypes.STRING,
       allowNull:true,
     },
     email: {
       type:DataTypes.STRING,
       allowNull:false,
+      unique: true
     },
-    numPas: {
+    contrato: {
       type:DataTypes.STRING,
       allowNull:true,
     },
     password: {
         type:DataTypes.STRING,
         allowNull:false,
-        unique: true
     },
     rol: {
         type:DataTypes.STRING,
