@@ -12,6 +12,7 @@ module.exports = function(sequelize) {
     usuario: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true
       },    
     nombre: {
       type:DataTypes.STRING,
@@ -20,7 +21,6 @@ module.exports = function(sequelize) {
     email: {
       type:DataTypes.STRING,
       allowNull:false,
-      unique: true
     },
     contrato: {
       type:DataTypes.STRING,

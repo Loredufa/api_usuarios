@@ -14,10 +14,10 @@ POST: http://localhost:4002/usuarios
 
         body: {
             "nombre":"Teresa",
-            "usuario": "Kimoto",
+            "usuario": "Kimoto",   **obligatorio y único**
             "email": "terek@gmail.com",  **obligatorio**
             "contrato":"87765",
-            "password":"6654547",   **obligatorio y único**
+            "password":"6654547",   **obligatorio*
             "rol": "Padre"   **obligatorio**
             }
 
