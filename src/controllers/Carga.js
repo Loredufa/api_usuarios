@@ -1,6 +1,6 @@
 const { Login } = require('../models/index')
 const { validacion } = require('./Validacion')
-const { addUsuario } = require('./Usuarios')
+
 
 const addManyUsuarios = async (req,res) => {
     try {
