@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const {getAllUsuario, addUsuario, getUsuarioById, putUsuario, deleteUsuario, getUsuarioByLogin} = require('../controllers/Usuarios')
+const verifyToken = require('../utils/middlewares/verifyToken');
 const router = Router();
 
 router.get('/', getAllUsuario)

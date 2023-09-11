@@ -41,6 +41,10 @@ DELETE http://localhost:4002/usuarios/id
 **Ruta para carga masiva
 
 POST http://localhost:4002/carga
+Retorna un array, dentro de éste muestra los usuarios creados, si el uruario ya existe mostrará la leyenda 
+`El usuario ${usuario} ya está creado`
+
+
 body: [{
   "nombre":"Pepe",
   "usuario": "Botella",
