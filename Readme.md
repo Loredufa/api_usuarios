@@ -8,6 +8,15 @@ Agregar a cada llamado de la api los Headers.
 ![Alt text](image.png)
 
 
+const api = axios.create({
+  baseURL: 'https://ruta', // Reemplaza con la URL a utilizar
+  headers: {
+    'Content-Type': 'application/json',
+    'x-access-token': token,
+  },
+});
+
+
 **Rutas :
 
 
