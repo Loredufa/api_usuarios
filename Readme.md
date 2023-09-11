@@ -1,6 +1,11 @@
 Esta api maneja todo lo relativo al Login
 
+
 **iniciar la api: npm start
+
+
+Agregar a cada llamado de la api los Headers. 
+![Alt text](image.png)
 
 
 **Rutas :
