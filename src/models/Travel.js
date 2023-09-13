@@ -57,6 +57,10 @@ module.exports = function(sequelize) {
     muro: {
       type:DataTypes.STRING,
       allowNull:true,
+    },
+    contratos: {
+      type:DataTypes.STRING,
+      allowNull:true,
     }
   })
 
