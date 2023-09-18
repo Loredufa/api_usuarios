@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const {secretKey} = require('../config/index')
 
+
 // Middleware para verificar el token
 
 const verifyToken = (req, res, next) => { 
@@ -14,7 +15,6 @@ const verifyToken = (req, res, next) => {
         }
         // El token es válido
         req.userId = decoded.userId; 
-        console.log(req.userId)
         next();
     });
 }

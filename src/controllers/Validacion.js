@@ -1,7 +1,6 @@
 const { Login } = require('../models/index')
 
 const validacion = async (req, res) =>  {
-  console.log('Soy el request ', req)
     try{
     // Verifica si los usuarios y contraseñas existen en la tabla Login
           const existingUsuario = await Login.findOne({

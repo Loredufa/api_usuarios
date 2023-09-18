@@ -1,13 +1,14 @@
 const { Router } = require('express');
 const {getAllUsuario, addUsuario, getUsuarioById, putUsuario, deleteUsuario, getUsuarioByLogin} = require('../controllers/Usuarios')
+const verifyRoleAdministrador = require('../controllers/role/VerifyRoleAdministrador');
 const verifyToken = require('../utils/middlewares/verifyToken');
 const router = Router();
 
-router.get('/', getAllUsuario)
-router.get('/:id', getUsuarioById)
-router.post('/', addUsuario)
-router.put('/:id', putUsuario);
-router.delete('/:id', deleteUsuario);
-router.get('/:usuario/:password', getUsuarioByLogin);
+router.get('/', verifyRoleAdministrador, getAllUsuario)
+router.get('/:id',verifyToken, getUsuarioById)
+router.post('/', verifyToken, addUsuario)
+router.put('/:id', verifyToken, putUsuario);
+router.delete('/:id', verifyToken, deleteUsuario);
+router.get('/:usuario/:password', verifyToken, getUsuarioByLogin);
 
 module.exports = router;

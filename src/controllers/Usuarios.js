@@ -1,4 +1,7 @@
 const { Login } = require('../models/index')
+const { validacion } = require('./Validacion')
+const jwt = require('jsonwebtoken');
+const config = require('../utils/config')
 
 const getAllUsuario = async (req, res) => {
   try {
@@ -12,8 +15,15 @@ const getAllUsuario = async (req, res) => {
 const addUsuario = async (req,res) => {
   try {
     const usuario = req.body
+    let userValidado = await validacion({usuario: usuario.usuario, password: usuario.password})
+
+    if (userValidado === 'ok') {
     const newUsuario = await Login.create(usuario)
-    res.send(newUsuario)
+    //{dato a guardar}, palabrasecreta, tiempo de expiracion
+    const token = jwt.sign({id: newUsuario.id, userName: newUsuario.usuario}, config.secretKey,{expiresIn: 86400});
+    res.status(200).send(token) }  
+
+    else res.status(404).send({message: `El usuario ya existe`})
   } catch (error) { console.log("Algo salio mal: ", error); 
     throw error; //lanzo el error 
 }
@@ -40,7 +50,8 @@ const getUsuarioByLogin = async (req, res, next) => {
     }
   })
   if (login) {
-    res.send(login);
+    const token = jwt.sign({id: login.id, userName: login.usuario}, config.secretKey,{expiresIn: 86400});
+    res.status(200).send({"token" :token, "usuario" : login});
   } else {
     res.status(404).send({ mensaje: "Usuario no encontrado" });
   }
@@ -51,7 +62,7 @@ const getUsuarioByLogin = async (req, res, next) => {
 
 const putUsuario = async (req, res) => {
   try {
-    const id = req.params.id
+    const id = req.body.id;
     const usuario = req.body
     const updateUsuario = await Login.update(usuario, {
       where: {
