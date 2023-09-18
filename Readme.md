@@ -44,8 +44,18 @@ GET by id: http://localhost:4002/usuarios/id
 
 GET to Login: http://localhost:4002/usuarios/usuario/password
 
+DELETE http://localhost:4002/usuarios/id
 
-Ruta para actualizar la el password
+
+***Ruta para reseteo del password***
+
+GET http://localhost:4002/reset
+
+    body: { 
+        "usuario": "xxx"
+    }
+
+
 PUT http://localhost:4002/usuarios
 
     body: { 
@@ -53,8 +63,10 @@ PUT http://localhost:4002/usuarios
         "password": "8665545"
     }
 
+
+
+
     
-DELETE http://localhost:4002/usuarios/id
 
 
 Variable de entorno para el archivo .env
