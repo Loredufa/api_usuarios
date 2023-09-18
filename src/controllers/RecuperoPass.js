@@ -40,7 +40,9 @@ const getUserByUsername = async (req, res) => {
     })
 
     if (usuario) {
-
+        //genero token
+        const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 86400})      
+        
         const mailSend = conectionMail(req, res, usuario) 
         mailSend? res.status(200).json({ message: 'Mail enviado' }): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
