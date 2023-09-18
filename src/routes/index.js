@@ -3,7 +3,6 @@ const axios = require ('axios');
 const router = Router();
 const verifyToken = require('../utils/middlewares/verifyToken');
 
-
 const viajeRoute = require('./getUsuario');
 const resetRoute = require('./resetPassword');
 

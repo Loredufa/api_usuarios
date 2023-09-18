@@ -45,11 +45,11 @@ GET by id: http://localhost:4002/usuarios/id
 GET to Login: http://localhost:4002/usuarios/usuario/password
 
 
-PUT http://localhost:4002/usuarios/
+Ruta para actualizar la el password
+PUT http://localhost:4002/usuarios
 
     body: { 
         "id" : "463"  //dato obligatorio
-        "usuario": "xxxx"   
         "password": "8665545"
     }
 

@@ -4,10 +4,10 @@ const verifyRoleAdministrador = require('../controllers/role/VerifyRoleAdministr
 const verifyToken = require('../utils/middlewares/verifyToken');
 const router = Router();
 
-router.get('/', verifyRoleAdministrador, getAllUsuario)
+router.get('/', getAllUsuario)
 router.get('/:id',verifyToken, getUsuarioById)
 router.post('/', verifyToken, addUsuario)
-router.put('/:id', verifyToken, putUsuario);
+router.put('/', verifyToken, putUsuario);
 router.delete('/:id', verifyToken, deleteUsuario);
 router.get('/:usuario/:password', verifyToken, getUsuarioByLogin);
 

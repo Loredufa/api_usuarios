@@ -16,7 +16,6 @@ const addUsuario = async (req,res) => {
   try {
     const usuario = req.body
     let userValidado = await validacion({usuario: usuario.usuario, password: usuario.password})
-
     if (userValidado === 'ok') {
     const newUsuario = await Login.create(usuario)
     //{dato a guardar}, palabrasecreta, tiempo de expiracion
@@ -64,12 +63,16 @@ const putUsuario = async (req, res) => {
   try {
     const id = req.body.id;
     const usuario = req.body
+    if (!id) {
+      return res.status(400).send({ message: "ID de usuario no proporcionado" });
+    }
     const updateUsuario = await Login.update(usuario, {
       where: {
         id,
       },
     })
-    res.send(updateUsuario)
+    updateUsuario[0] !== 0? res.status(200).send({message:"Contraseña actualizada"}) : 
+    res.status(400).send({message:"No se pudo actualizar la contraseña"})
   } catch (error) { console.log("Algo salio mal: ", error); 
     throw error; //lanzo el error
 }

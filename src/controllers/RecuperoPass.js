@@ -1,10 +1,12 @@
 const { Login } = require('../models/index');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const config = require('../utils/config')
 
 
-const conectionMail = async (req, res, usuario) => {
+const conectionMail = async (req, res, usuario, token) => {
     try {
+        verificationLink = `http://localhost:4002/${token}`
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
@@ -19,7 +21,7 @@ const conectionMail = async (req, res, usuario) => {
             from: `Cuyen <cuyenreset@gmail.com>`,
             to: usuario.email,
             subject: 'Tu contraseña de Cuyen',
-            text: 'Hola '+ usuario.nombre + ', Te enviamos tu contraseña para que puedas ingresar a nuestra aplicacion.... Contraseña: ' + usuario.password
+            text: 'Hola '+ usuario.nombre + ', Te enviamos un link para que puedas generar una nueva contraseña ' + verificationLink
         }
         transporter.sendMail(mailOptions, (error) => {
             error? res.status(500).send(error.message): res.status(200).jsonp(req.body)
@@ -41,10 +43,10 @@ const getUserByUsername = async (req, res) => {
 
     if (usuario) {
         //genero token
-        const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 86400})      
-        
-        const mailSend = conectionMail(req, res, usuario) 
-        mailSend? res.status(200).json({ message: 'Mail enviado' }): res.status(401).json({ message: 'No se pudo enviar el correo' })
+        const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 84600})      
+        const idUsuario = usuario.id
+        const mailSend = conectionMail(req, res, usuario, token) 
+        mailSend? res.status(200).send({token, idUsuario}): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
      } else res.status(400).json({ message: 'El usuario no existe' })
 
