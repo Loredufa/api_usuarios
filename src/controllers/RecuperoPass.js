@@ -6,14 +6,15 @@ const config = require('../utils/config')
 
 const conectionMail = async (req, res, usuario, token) => {
     try {
-        verificationLink = `http://localhost:4002/${token}`
+        verificationLink = `${config.urlReset}${token}`
+        
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
             secure: true,
             auth: {
                 user: 'cuyenreset@gmail.com',
-                pass: 'bgenaelepmiagwpo'
+                pass: config.mailPass
                 }
             });
     
@@ -59,10 +60,3 @@ const getUserByUsername = async (req, res) => {
 module.exports = {
     getUserByUsername
 }
-
-    // //genero el token
-   // const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.jwtSecret,{expiresIn: '10m'});
-    // //link que se debe enviar al usuario para el reseteo del password
-    // verificationLink = `http://localhost:4002/${token}`
-    // usuario.resetToken = token
-    // console.log('SOY RESETTOKEN ', usuario)

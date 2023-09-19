@@ -9,4 +9,6 @@ module.exports = {
     host : process.env.HOST,
     PORT : process.env.PORT,
     secretKey : process.env.SECRET_KEY,
+    urlReset : process.env.URL_RESET,
+    mailPass : process.env.MAIL_PASSWORD
 }

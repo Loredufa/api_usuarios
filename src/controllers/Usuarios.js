@@ -17,7 +17,9 @@ const addUsuario = async (req,res) => {
     const usuario = req.body
     let userValidado = await validacion({usuario: usuario.usuario, password: usuario.password})
     if (userValidado === 'ok') {
-    const newUsuario = await Login.create(usuario)
+      const usuarioCompleto = { ...usuario, contrato: usuario.contrato || '0000' };
+    const newUsuario = await Login.create(usuarioCompleto)
+
     //{dato a guardar}, palabrasecreta, tiempo de expiracion
     const token = jwt.sign({id: newUsuario.id, userName: newUsuario.usuario}, config.secretKey,{expiresIn: 86400});
     res.status(200).send(token) }  
