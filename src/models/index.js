@@ -6,6 +6,7 @@ const Landings = require('./Landing')
 const Contracts = require('./Contract')
 const Passengers = require('./Passenger')
 const Logins = require('./Login')
+const Walls = require('./Wall')
 
 const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}/${dbName}`);
 
@@ -15,21 +16,23 @@ const Landing = Landings(sequelize)
 const Contract = Contracts(sequelize)
 const Passenger = Passengers(sequelize)
 const Login = Logins(sequelize)
+const Wall = Walls(sequelize)
 
 
 //Relaciones
 
-Travel.hasMany(Excursion)
-Excursion.belongsTo (Travel) // coloca viajeId en Excursion
 
 Travel.hasMany(Contract)
-Contract.belongsTo (Travel) // coloca travelId en contract
+Contract.belongsTo(Travel, { foreignKey: 'travelId' }); // coloca travelId en contract
 
 Contract.hasMany(Passenger)
 Passenger.belongsTo (Contract) // coloca Contract_id en Passenger
 
 Passenger.hasMany(Login)
 Login.belongsTo (Passenger) // coloca PassengerId en Login
+
+Travel.hasMany(Wall)
+Wall.belongsTo (Travel, { foreignKey: 'travelId' }) // coloca TravelId en Wall
 
 
 module.exports = {
@@ -39,5 +42,7 @@ module.exports = {
     Landing,
     Contract,
     Passenger,
-    Login
+    Login,
+    Wall,
+    sequelize
 }

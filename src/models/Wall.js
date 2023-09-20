@@ -3,21 +3,21 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = function(sequelize) {
   // defino el modelo
-  return sequelize.define('landing', {
+  return sequelize.define('wall', {
     id:  {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    imagen: {
+    image: {
       type: DataTypes.STRING,
-      allowNull: true,
-      },    
+      allowNull: false,
+    },
     texto: {
       type:DataTypes.STRING,
       allowNull:true,
-    },
-    activo: {
+    },   
+    emogi: {
       type:DataTypes.STRING,
       allowNull:true,
     }

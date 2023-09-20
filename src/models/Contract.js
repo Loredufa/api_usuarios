@@ -12,107 +12,104 @@ module.exports = function(sequelize) {
     num: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true
       },
     
     fecha: {
       type:DataTypes.STRING,
-      allowNull:true,
+      allowNull:false
     },
     curso: {
       type:DataTypes.STRING,
-      allowNull:true,
+      allowNull:true
     },
     division: {
       type:DataTypes.STRING,
-      allowNull:true,
+      allowNull:true
     },
     turno: {
        type:DataTypes.STRING,
-       allowNull:true,
+       allowNull:true
     },
     colegio: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     }, 
     pasajeros: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },      
     mes: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     año: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     periodo: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     destino: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     impTot: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     canc: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     realiz: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     hotel: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     duracion: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     fechaFirma: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     fechaViaje: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     ImpTotAct: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     fechaActu: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     usuarioLog: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     fechaLog: {
         type:DataTypes.STRING,
-        allowNull:true,
-    }, 
+        allowNull:true
+    },
     id_sucursal: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },  
     id_periodo: {
         type:DataTypes.STRING,
-        allowNull:true,
+        allowNull:true
     },
     id_cotizacion: {
         type:DataTypes.STRING,
-        allowNull:true,
-    }, 
-    
-
-
+        allowNull:true
+    }
   })
-
   };
