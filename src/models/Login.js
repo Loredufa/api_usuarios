@@ -18,7 +18,15 @@ module.exports = function(sequelize) {
       type:DataTypes.STRING,
       allowNull:true,
     },
+    apellido: {
+      type:DataTypes.STRING,
+      allowNull:true,
+    },
     email: {
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    telefono: {
       type:DataTypes.STRING,
       allowNull:false,
     },
