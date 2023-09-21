@@ -3,6 +3,6 @@ const {getUserByUsername} = require('../controllers/RecuperoPass')
 const router = Router();
 
 
-router.get('/', getUserByUsername);
+router.post('/', getUserByUsername);
 
 module.exports = router;
