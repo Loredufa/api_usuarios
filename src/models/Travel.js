@@ -9,6 +9,10 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       primaryKey: true
     },
+    destino: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      },
     hotel: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,19 +30,19 @@ module.exports = function(sequelize) {
       type:DataTypes.STRING,
       allowNull:true,
     },
-    estadia: {
+    ingreso: {
+      type:DataTypes.STRING,
+      allowNull:true,
+    },
+    salida: {
+      type:DataTypes.STRING,
+      allowNull:true,
+    },
+    pension: {
       type:DataTypes.STRING,
       allowNull:true,
     },
     cronograma: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
-    menu: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
-    coordinador: {
       type:DataTypes.STRING,
       allowNull:true,
     },
