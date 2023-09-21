@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const {getAllUsuario, addUsuario, getUsuarioById, putUsuario, deleteUsuario, getUsuarioByLogin} = require('../controllers/Usuarios')
-const verifyRoleAdministrador = require('../controllers/role/VerifyRoleAdministrador');
+//const verifyRoleAdministrador = require('../controllers/role/VerifyRoleAdministrador');
 const verifyToken = require('../utils/middlewares/verifyToken');
 const router = Router();
 
