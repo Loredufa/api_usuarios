@@ -49,7 +49,7 @@ DELETE http://localhost:4002/usuarios/id
 
 ***Ruta para reseteo del password***
 
-GET http://localhost:4002/reset
+POST http://localhost:4002/reset
 
     body: { 
         "usuario": "xxx"
