@@ -46,8 +46,7 @@ const getUserByUserapp = async (req, res) => {
         //genero token
         const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 84600})      
         const idUsuario = usuario.id
-        const maximo = 10; // Cambia esto al valor máximo deseado
-        const numeroAleatorio = Math.floor(Math.random() * maximo);
+        const numeroAleatorio = Math.floor(1000 + Math.random() * 9000);
         console.log(numeroAleatorio);
         const mailSend = conectionMail(req, res, usuario, token, numeroAleatorio) 
         mailSend? res.status(200).send({token, idUsuario, numeroAleatorio}): res.status(401).json({ message: 'No se pudo enviar el correo' })
