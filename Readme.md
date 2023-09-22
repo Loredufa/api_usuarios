@@ -48,13 +48,19 @@ DELETE http://localhost:4002/usuarios/id
 
 
 ***Ruta para reseteo del password***
-
+Desde el BackOffice
 POST http://localhost:4002/reset
 
     body: { 
         "usuario": "xxx"
     }
 
+Desde la App
+POST http://localhost:4002/resetapp
+
+    body: { 
+        "usuario": "xxx"
+    }
 
 PUT http://localhost:4002/usuarios
 

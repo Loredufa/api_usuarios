@@ -22,7 +22,7 @@ const conectionMail = async (req, res, usuario, token, numeroAleatorio) => {
             from: `Cuyen <cuyenreset@gmail.com>`,
             to: usuario.email,
             subject: 'Tu contraseña de Cuyen',
-            text: 'Hola '+ usuario.nombre + ', Te enviamos un código para que puedas generar una nueva contraseña ' + numeroAleatorio
+            text: 'Hola '+ usuario.nombre + ', Te enviamos un código para que puedas generar una nueva contraseña CODIGO: ' + numeroAleatorio
         }
         transporter.sendMail(mailOptions, (error) => {
             error? res.status(500).send(error.message): res.status(200).jsonp(req.body)
