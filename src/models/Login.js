@@ -28,7 +28,7 @@ module.exports = function(sequelize) {
     },
     telefono: {
       type:DataTypes.STRING,
-      allowNull:false,
+      allowNull:true,
     },
     contrato: {
       type:DataTypes.STRING,

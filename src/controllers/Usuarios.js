@@ -63,18 +63,23 @@ const getUsuarioByLogin = async (req, res, next) => {
 
 const putUsuario = async (req, res) => {
   try {
-    const id = req.body.id;
-    const usuario = req.body
+    const id = req.body.idUsuario;
+    console.log('SOY ID', id);
+    const password = req.body.password;   
+    console.log('SOY ID PASSWORD', password);
+    const newPassword = {password: password}
+
     if (!id) {
-      return res.status(400).send({ message: "ID de usuario no proporcionado" });
-    }
-    const updateUsuario = await Login.update(usuario, {
+      return res.status(401).send({ message: "No existe el ID" });
+    } else {
+    const updateUsuario = await Login.update(newPassword, {
       where: {
         id,
       },
     })
-    updateUsuario[0] !== 0? res.status(200).send({message:"Contraseña actualizada"}) : 
-    res.status(400).send({message:"No se pudo actualizar la contraseña"})
+    console.log('SOUY EL PUT ', updateUsuario)
+    updateUsuario[0] !== 0? res.status(200).send({updateUsuario, message:"Contraseña actualizada"}) : 
+    res.status(400).send({message:"No se pudo actualizar la contraseña"})}
   } catch (error) { console.log("Algo salio mal: ", error); 
     throw error; //lanzo el error
 }
