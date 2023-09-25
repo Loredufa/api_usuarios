@@ -16,7 +16,7 @@ const conectionMail = async (req, res, usuario, numeroAleatorio) => {
                 pass: config.mailPass
                 }
             });
-        //Armado del correo 
+        //Armado correo
         const mailOptions = {
             from: `Cuyen <cuyenreset@gmail.com>`,
             to: usuario.email,
@@ -24,9 +24,11 @@ const conectionMail = async (req, res, usuario, numeroAleatorio) => {
             text: 'Hola '+ usuario.nombre + ', Te enviamos un código para que puedas generar una nueva contraseña CODIGO: ' + numeroAleatorio
         }
         transporter.sendMail(mailOptions, (error) => {
-            error? res.status(500).send(false): res.status(200).send(true)
+            error? res.status(500).send(error.message): res.status(200).jsonp(req.body)
         })
+        return true;
         } catch (error) { console.log("Algo salio mal: ", error); 
+        return false;
            // throw error; //lanzo el error
     }
 }
@@ -46,8 +48,7 @@ const getUserByUserapp = async (req, res) => {
         const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 84600})      
         const idUsuario = usuario.id
         const numeroAleatorio = Math.floor(1000 + Math.random() * 9000);
-        console.log(numeroAleatorio);
-        const mailSend = await conectionMail(req, res, usuario, token, numeroAleatorio) 
+        const mailSend = await conectionMail(req, res, usuario, numeroAleatorio) 
         mailSend? res.status(200).send({token, idUsuario, numeroAleatorio}): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
      } else res.status(400).json({ message: 'El usuario no existe' })
