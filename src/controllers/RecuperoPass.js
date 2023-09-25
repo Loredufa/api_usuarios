@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 const config = require('../utils/config')
 
 //Envío de mail para resetear la contraseña
-const conectionMail = async (req, res, usuario, token) => {
+const conectionMail = async (req, res, usuario, token, idUsuario) => {
     try {
         //url que utiliza el front para el reseteo
-        verificationLink = `${config.urlReset}${token}`
+        verificationLink = `${config.urlReset}${token}}&idUsuario=${idUsuario}`
         //credenciales del mail por donde se envía el correo
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -54,7 +54,7 @@ const getUserByUsername = async (req, res) => {
         //extraigo id del usuario     
         const idUsuario = usuario.id
         //llamo a la funcion que envía el mail
-        const mailSend = await conectionMail(req, res, usuario, token) 
+        const mailSend = await conectionMail(req, res, usuario, token, idUsuario) 
         mailSend? res.status(200).send({token, idUsuario}): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
      } else res.status(400).json({ message: 'El usuario no existe' })
