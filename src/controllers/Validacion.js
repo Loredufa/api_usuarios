@@ -1,5 +1,6 @@
 const { Login } = require('../models/index')
 
+//valida si el usuario y contraseña existen en la bd
 const validacion = async (req, res) =>  {
     try{
     // Verifica si los usuarios y contraseñas existen en la tabla Login
@@ -12,7 +13,7 @@ const validacion = async (req, res) =>  {
     // Si el usuario existe, devuelve nombre y password
     if (existingUsuario) {
         return {
-          nombre: existingUsuario.nombre, // Reemplaza con el nombre del campo en tu tabla
+          nombre: existingUsuario.nombre, // Reemplaza con el nombre del campo de la tabla
         };
       } else {
         return "ok"; // Si el usuario no existe, devuelve "ok"

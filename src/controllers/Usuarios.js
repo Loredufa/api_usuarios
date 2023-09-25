@@ -3,6 +3,7 @@ const { validacion } = require('./Validacion')
 const jwt = require('jsonwebtoken');
 const config = require('../utils/config')
 
+//obtener todos los usuarios
 const getAllUsuario = async (req, res) => {
   try {
     const usuario = await Login.findAll()
@@ -12,15 +13,17 @@ const getAllUsuario = async (req, res) => {
 }
 }
 
+//Dar de alta un nuevo usuario
 const addUsuario = async (req,res) => {
   try {
     const usuario = req.body
+    //verifica si existe el usuarios
     let userValidado = await validacion({usuario: usuario.usuario, password: usuario.password})
     if (userValidado === 'ok') {
       const usuarioCompleto = { ...usuario, contrato: usuario.contrato || '0000' };
     const newUsuario = await Login.create(usuarioCompleto)
-
-    //{dato a guardar}, palabrasecreta, tiempo de expiracion
+    //Genera token del usuario
+    //Estructura del tolen: ({dato a guardar}, palabrasecreta, tiempo de expiracion)
     const token = jwt.sign({id: newUsuario.id, userName: newUsuario.usuario}, config.secretKey,{expiresIn: 86400});
     res.status(200).send(token) }  
 
@@ -30,6 +33,7 @@ const addUsuario = async (req,res) => {
 }
 }
 
+//Obtener usuario po id
 const getUsuarioById = async (req, res, next) => {
   try {
     const id = req.params.id
@@ -40,6 +44,7 @@ const getUsuarioById = async (req, res, next) => {
 }
 }
 
+//Obtener usuario segun usuario y contraseña
 const getUsuarioByLogin = async (req, res, next) => {
   try {
     const usuario = req.params.usuario
@@ -61,12 +66,11 @@ const getUsuarioByLogin = async (req, res, next) => {
 }
 }
 
+//Modificar usuario
 const putUsuario = async (req, res) => {
   try {
     const id = req.body.idUsuario;
-    console.log('SOY ID', id);
     const password = req.body.password;   
-    console.log('SOY ID PASSWORD', password);
     const newPassword = {password: password}
 
     if (!id) {
@@ -77,7 +81,6 @@ const putUsuario = async (req, res) => {
         id,
       },
     })
-    console.log('SOUY EL PUT ', updateUsuario)
     updateUsuario[0] !== 0? res.status(200).send({updateUsuario, message:"Contraseña actualizada"}) : 
     res.status(400).send({message:"No se pudo actualizar la contraseña"})}
   } catch (error) { console.log("Algo salio mal: ", error); 
@@ -85,6 +88,7 @@ const putUsuario = async (req, res) => {
 }
 }
 
+//Eliminar un usuario
 const deleteUsuario = (req, res, next) => {
   const id = req.params.id
   return Login.destroy({
