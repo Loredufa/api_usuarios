@@ -14,7 +14,7 @@ const conectionMail = async (req, res, usuario, token, numeroAleatorio) => {
             secure: true,
             auth: {
                 user: 'cuyenreset@gmail.com',
-                pass: config.mailPass
+                pass: 'bgenaelepmiagwpo'
                 }
             });
     
@@ -24,12 +24,15 @@ const conectionMail = async (req, res, usuario, token, numeroAleatorio) => {
             subject: 'Tu contraseña de Cuyen',
             text: 'Hola '+ usuario.nombre + ', Te enviamos un código para que puedas generar una nueva contraseña CODIGO: ' + numeroAleatorio
         }
-        transporter.sendMail(mailOptions, (error) => {
-            error? res.status(500).send(false): res.status(200).send(true)
-        })
-        } catch (error) { console.log("Algo salio mal: ", error); 
-            throw error; //lanzo el error
-    }
+        // transporter.sendMail(mailOptions, (error) => {
+        //     error? res.status(500).send(false): res.status(200).send(true)
+        // })
+        await transporter.sendMail(mailOptions); 
+        return true //el correo se envio correctamente
+        } catch (error) {
+            console.error("Algo salió mal:", error);
+            return false; //ocurrió un error al intentar enviar el correo
+        }
 }
 
 
