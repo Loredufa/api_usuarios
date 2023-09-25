@@ -47,7 +47,7 @@ const getUserByUserapp = async (req, res) => {
         const idUsuario = usuario.id
         const numeroAleatorio = Math.floor(1000 + Math.random() * 9000);
         console.log(numeroAleatorio);
-        const mailSend = conectionMail(req, res, usuario, token, numeroAleatorio) 
+        const mailSend = await conectionMail(req, res, usuario, token, numeroAleatorio) 
         mailSend? res.status(200).send({token, idUsuario, numeroAleatorio}): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
      } else res.status(400).json({ message: 'El usuario no existe' })
