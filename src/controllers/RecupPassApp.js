@@ -25,7 +25,7 @@ const conectionMail = async (req, res, usuario, token, numeroAleatorio) => {
             text: 'Hola '+ usuario.nombre + ', Te enviamos un código para que puedas generar una nueva contraseña CODIGO: ' + numeroAleatorio
         }
         transporter.sendMail(mailOptions, (error) => {
-            error? res.status(500).send(error.message): res.status(200).jsonp(req.body)
+            error? res.status(500).send(false): res.status(200).send(true)
         })
         } catch (error) { console.log("Algo salio mal: ", error); 
             throw error; //lanzo el error
@@ -54,7 +54,7 @@ const getUserByUserapp = async (req, res) => {
      } else res.status(400).json({ message: 'El usuario no existe' })
 
   } catch (error) { console.log("Algo salio mal: ", error); 
-    throw error; //lanzo el error
+    //throw error; //lanzo el error
 }
 }
 

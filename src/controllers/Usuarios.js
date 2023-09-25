@@ -8,7 +8,7 @@ const getAllUsuario = async (req, res) => {
     const usuario = await Login.findAll()
     res.send(usuario)
   } catch (error) { console.log("Algo salio mal: ", error); 
-    throw error; //lanzo el error
+    //throw error; //lanzo el error
 }
 }
 
@@ -26,7 +26,7 @@ const addUsuario = async (req,res) => {
 
     else res.status(404).send({message: `El usuario ya existe`})
   } catch (error) { console.log("Algo salio mal: ", error); 
-    throw error; //lanzo el error 
+    //throw error; //lanzo el error 
 }
 }
 
@@ -36,7 +36,7 @@ const getUsuarioById = async (req, res, next) => {
     const usuario = await Login.findByPk(id)
     res.send(usuario)
   } catch (error) { console.log("Algo salio mal: ", error); 
-    throw error; //lanzo el error
+    //throw error; //lanzo el error
 }
 }
 
@@ -57,7 +57,7 @@ const getUsuarioByLogin = async (req, res, next) => {
     res.status(404).send({ mensaje: "Usuario no encontrado" });
   }
   } catch (error) { console.log("Algo salio mal: ", error); 
-    throw error; //lanzo el error
+   // throw error; //lanzo el error
 }
 }
 
@@ -81,7 +81,7 @@ const putUsuario = async (req, res) => {
     updateUsuario[0] !== 0? res.status(200).send({updateUsuario, message:"Contraseña actualizada"}) : 
     res.status(400).send({message:"No se pudo actualizar la contraseña"})}
   } catch (error) { console.log("Algo salio mal: ", error); 
-    throw error; //lanzo el error
+   // throw error; //lanzo el error
 }
 }
 

@@ -19,7 +19,6 @@ const validacion = async (req, res) =>  {
       }
     } catch (error) {
       console.error("Error al validar usuario: ", error);
-      throw error;
     }
   }
 
