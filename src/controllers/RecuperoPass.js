@@ -25,12 +25,14 @@ const conectionMail = async (req, res, usuario, token) => {
             subject: 'Tu contraseña de Cuyen',
             text: 'Hola '+ usuario.nombre + ', Te enviamos un link para que puedas generar una nueva contraseña ' + verificationLink
         }
-        //responde true si es exitoso o false si hay problemas
+        //envío correo 
         transporter.sendMail(mailOptions, (error) => {
-            error? res.status(500).send(false): res.status(200).send(true)
+            error? res.status(500).send(error.message): res.status(200).jsonp(req.body)
         })
+        return true
         } catch (error) { console.log("Algo salio mal: ", error); 
             //throw error; //lanzo el error
+            return false
     }
 }
 
@@ -52,7 +54,7 @@ const getUserByUsername = async (req, res) => {
         //extraigo id del usuario     
         const idUsuario = usuario.id
         //llamo a la funcion que envía el mail
-        const mailSend = conectionMail(req, res, usuario, token) 
+        const mailSend = await conectionMail(req, res, usuario, token) 
         mailSend? res.status(200).send({token, idUsuario}): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
      } else res.status(400).json({ message: 'El usuario no existe' })

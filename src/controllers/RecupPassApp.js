@@ -23,6 +23,7 @@ const conectionMail = async (req, res, usuario, numeroAleatorio) => {
             subject: 'Tu contraseña de Cuyen',
             text: 'Hola '+ usuario.nombre + ', Te enviamos un código para que puedas generar una nueva contraseña CODIGO: ' + numeroAleatorio
         }
+        //Envio correo
         transporter.sendMail(mailOptions, (error) => {
             error? res.status(500).send(error.message): res.status(200).jsonp(req.body)
         })
@@ -36,7 +37,9 @@ const conectionMail = async (req, res, usuario, numeroAleatorio) => {
 
 const getUserByUserapp = async (req, res) => {
   try {
+    //recibe el usuario por body
     const user = req.body.usuario
+    //Busco al usuario
     const usuario = await Login.findOne({
       where: {
         usuario: user
@@ -47,7 +50,9 @@ const getUserByUserapp = async (req, res) => {
         //genero token
         const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 84600})      
         const idUsuario = usuario.id
+        //genero numero aleatorio para reseteo
         const numeroAleatorio = Math.floor(1000 + Math.random() * 9000);
+        //Envío correo
         const mailSend = await conectionMail(req, res, usuario, numeroAleatorio) 
         mailSend? res.status(200).send({token, idUsuario, numeroAleatorio}): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
