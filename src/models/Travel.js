@@ -38,14 +38,6 @@ module.exports = function(sequelize) {
       type:DataTypes.STRING,
       allowNull:true,
     },
-    pension: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
-    cronograma: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
     inicioViaje: {
       type:DataTypes.STRING,
       allowNull:true,
