@@ -3,11 +3,10 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const config = require('../utils/config')
 
-
-const conectionMail = async (req, res, usuario, token, numeroAleatorio) => {
+//Funcion para el envío del mail
+const conectionMail = async (req, res, usuario, numeroAleatorio) => {
     try {
-        verificationLink = `${config.urlReset}${token}`
-        
+        //credenciales del correo emisor
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
@@ -17,7 +16,7 @@ const conectionMail = async (req, res, usuario, token, numeroAleatorio) => {
                 pass: config.mailPass
                 }
             });
-    
+        //Armado del correo 
         const mailOptions = {
             from: `Cuyen <cuyenreset@gmail.com>`,
             to: usuario.email,
@@ -28,7 +27,7 @@ const conectionMail = async (req, res, usuario, token, numeroAleatorio) => {
             error? res.status(500).send(false): res.status(200).send(true)
         })
         } catch (error) { console.log("Algo salio mal: ", error); 
-            throw error; //lanzo el error
+           // throw error; //lanzo el error
     }
 }
 

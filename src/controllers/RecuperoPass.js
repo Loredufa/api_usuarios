@@ -3,11 +3,12 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const config = require('../utils/config')
 
-
+//Envío de mail para resetear la contraseña
 const conectionMail = async (req, res, usuario, token) => {
     try {
+        //url que utiliza el front para el reseteo
         verificationLink = `${config.urlReset}${token}`
-        
+        //credenciales del mail por donde se envía el correo
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
@@ -17,13 +18,14 @@ const conectionMail = async (req, res, usuario, token) => {
                 pass: config.mailPass
                 }
             });
-    
+        //Armado del correo a envar
         const mailOptions = {
             from: `Cuyen <cuyenreset@gmail.com>`,
             to: usuario.email,
             subject: 'Tu contraseña de Cuyen',
             text: 'Hola '+ usuario.nombre + ', Te enviamos un link para que puedas generar una nueva contraseña ' + verificationLink
         }
+        //responde true si es exitoso o false si hay problemas
         transporter.sendMail(mailOptions, (error) => {
             error? res.status(500).send(false): res.status(200).send(true)
         })
@@ -32,10 +34,12 @@ const conectionMail = async (req, res, usuario, token) => {
     }
 }
 
-
+//Funcion padre para el reseteo de contraseña 
 const getUserByUsername = async (req, res) => {
   try {
+    //recibe usuario por body
     const user = req.body.usuario
+    //Busco al usuario
     const usuario = await Login.findOne({
       where: {
         usuario: user
@@ -44,8 +48,10 @@ const getUserByUsername = async (req, res) => {
 
     if (usuario) {
         //genero token
-        const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 84600})      
+        const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 84600}) 
+        //extraigo id del usuario     
         const idUsuario = usuario.id
+        //llamo a la funcion que envía el mail
         const mailSend = conectionMail(req, res, usuario, token) 
         mailSend? res.status(200).send({token, idUsuario}): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
