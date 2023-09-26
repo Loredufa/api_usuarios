@@ -13,31 +13,6 @@ module.exports = function(sequelize) {
       type: DataTypes.STRING,
       allowNull: false,
       },
-    hotel: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      },
-    
-    ubicHotel: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
-    fotosHotel: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
-    videoHotel: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
-    ingreso: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
-    salida: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
     inicioViaje: {
       type:DataTypes.STRING,
       allowNull:true,
@@ -55,5 +30,6 @@ module.exports = function(sequelize) {
       allowNull:true,
     }
   })
+//se agregan por relacion hotelId y scheduleId
 
   };

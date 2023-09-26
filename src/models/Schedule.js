@@ -9,19 +9,11 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       primaryKey: true
     },
-    fecha: {
+    nombre: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    excursion: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },   
-    actividades: {
-      type:DataTypes.STRING,
-      allowNull:true,
-    },
-    consideraciones: {
+    texto_gral: {
       type:DataTypes.STRING,
       allowNull:true,
     }
