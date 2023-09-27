@@ -38,7 +38,7 @@ const getUsuarioById = async (req, res, next) => {
   try {
     const id = req.params.id
     const usuario = await Login.findByPk(id)
-    res.send(usuario)
+    usuario? res.status(200).send(usuario) : res.status(401).send({message: `No se pudo encontrar el usuario`}) 
   } catch (error) { console.log("Algo salio mal: ", error); 
     //throw error; //lanzo el error
 }
@@ -89,16 +89,22 @@ const putUsuario = async (req, res) => {
 }
 
 //Eliminar un usuario
-const deleteUsuario = (req, res, next) => {
-  const id = req.params.id
-  return Login.destroy({
-    where: {
-      id,
-    },
-  }).then(() => {
-    res.sendStatus(200)
-  }).catch((error) => next(error))
+const deleteUsuario = async(req, res) => {
+  try {
+    const id = req.params.id
+    const deleteUser = await Login.destroy({
+      where: {
+        id,
+      },
+    })
+    deleteUser? res.status(200).send({message: 'Usuario eliminado'}) :
+    res.status(401).send({message: 'No se pudo eliminar el usuario'})
+
+  } catch (error) { console.log("Algo salio mal: ", error); 
+    //throw error
 }
+}
+
 
 module.exports = {
     getAllUsuario,
