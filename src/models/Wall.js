@@ -17,7 +17,7 @@ module.exports = function(sequelize) {
       type:DataTypes.STRING,
       allowNull:true,
     },   
-    emogi: {
+    emoji: {
       type:DataTypes.STRING,
       allowNull:true,
     }
