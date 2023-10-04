@@ -13,11 +13,11 @@ module.exports = function(sequelize) {
       type: DataTypes.STRING,
       allowNull: false,
       },
-    regreso: {
+    salida: {
       type:DataTypes.STRING,
       allowNull:true,
     },
-    inicioViaje: {
+    regreso: {
       type:DataTypes.STRING,
       allowNull:true,
     },
