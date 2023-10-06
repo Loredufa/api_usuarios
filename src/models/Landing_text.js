@@ -9,18 +9,13 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       primaryKey: true
     },
-    imagen: {
+    texto: {
       type: DataTypes.STRING,
       allowNull: true,
-      }, 
-    folleto: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+      },    
     activo: {
       type:DataTypes.STRING,
       allowNull:true,
     }
   })
-
   };

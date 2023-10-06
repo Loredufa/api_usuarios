@@ -3,24 +3,31 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = function(sequelize) {
   // defino el modelo
-  return sequelize.define('landing', {
+  return sequelize.define('form', {
     id:  {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    imagen: {
+    nombre: {
       type: DataTypes.STRING,
       allowNull: true,
       }, 
-    folleto: {
+    mail: {
       type: DataTypes.STRING,
       allowNull: true,
+    },     
+    telefono: {
+       type: DataTypes.STRING,
+       allowNull: true,
     },
-    activo: {
+    comentario: {
+       type: DataTypes.STRING,
+       allowNull: true,
+    },
+    horario: {
       type:DataTypes.STRING,
       allowNull:true,
     }
   })
-
   };

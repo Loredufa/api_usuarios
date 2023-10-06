@@ -18,6 +18,30 @@ module.exports = function(sequelize) {
       type:DataTypes.STRING,
       allowNull:true,
     },
+    telefono: {
+      type:DataTypes.STRING,
+      allowNull:true,
+    },
+    facebook: {
+      type:DataTypes.STRING,
+      allowNull:true,
+    },
+    instagram: {
+      type:DataTypes.STRING,
+      allowNull:true,
+    },
+    linkedin: {
+      type:DataTypes.STRING,
+      allowNull:true,
+    },
+    twitter: {
+      type:DataTypes.STRING,
+      allowNull:true,
+    },
+    otra_red: {
+      type:DataTypes.STRING,
+      allowNull:true,
+    },
     fotos: {
       type:DataTypes.STRING,
       allowNull:true,
