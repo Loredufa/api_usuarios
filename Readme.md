@@ -46,6 +46,11 @@ GET to Login: http://localhost:4002/usuarios/usuario/password
 
 DELETE http://localhost:4002/usuarios/id
 
+PUT http://localhost:4002/usuarios/id
+    body:{
+        'nombre': 'Florenacia'
+    }
+
 
 ***Ruta para reseteo del password***
 Desde el BackOffice

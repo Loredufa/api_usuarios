@@ -66,7 +66,7 @@ const getUsuarioByLogin = async (req, res, next) => {
 }
 }
 
-//Modificar usuario
+//Modificar password de un usuario
 const putUsuario = async (req, res) => {
   try {
     const id = req.body.idUsuario;
@@ -85,6 +85,22 @@ const putUsuario = async (req, res) => {
     res.status(400).send({message:"No se pudo actualizar la contraseña"})}
   } catch (error) { console.log("Algo salio mal: ", error); 
    // throw error; //lanzo el error
+}
+}
+
+//Modificar datos de un ususario
+const putUsuarioMod = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const info = req.body;   
+    const updateUsuario = await Login.update(info, {
+      where: {
+        id,
+      },
+    })
+    updateUsuario[0] !== 0? res.status(200).send({updateUsuario, message:"Usuario actualizado"}) : 
+    res.status(400).send({message:"No se pudo actualizar el usuario"})}
+  catch (error) { console.log("Algo salio mal: ", error); 
 }
 }
 
@@ -112,6 +128,7 @@ module.exports = {
     addUsuario,
     putUsuario,
     deleteUsuario,
-    getUsuarioByLogin
+    getUsuarioByLogin,
+    putUsuarioMod
 
 }
