@@ -28,8 +28,6 @@ const Landing_text = Landing_texts(sequelize)
 
 
 //Relaciones
-
-
 Travel.hasMany(Contract)
 Contract.belongsTo(Travel, { foreignKey: 'travelId' }); // coloca travelId en contract
 
