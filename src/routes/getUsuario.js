@@ -2,7 +2,7 @@ const { Router } = require('express');
 const {getAllUsuario, addUsuario, getUsuarioById, putUsuario, deleteUsuario, getUsuarioByLogin, putUsuarioMod} = require('../controllers/Usuarios')
 //const verifyRoleAdministrador = require('../controllers/role/VerifyRoleAdministrador');
 const verifyToken = require('../utils/middlewares/verifyToken');
-const {getUserByUsername} = require('../controllers/RecuperoPass')
+
 const router = Router();
 
 router.get('/', getAllUsuario)
@@ -13,6 +13,5 @@ router.put('/:id', verifyToken, putUsuarioMod);
 router.delete('/:id', verifyToken, deleteUsuario);
 router.get('/:usuario/:password', verifyToken, getUsuarioByLogin);
 
-router.post('/reset', getUserByUsername);
 
 module.exports = router;
