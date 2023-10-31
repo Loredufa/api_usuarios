@@ -22,7 +22,7 @@ app.use([expressJson, bodyParser])
 
 
 //Rutas
-app.use('/pepe', routes);
+app.use('/', routes);
 
 //control de errores
 app.use(errorHandler)
