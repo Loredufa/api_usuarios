@@ -75,6 +75,17 @@ PUT http://localhost:4002/usuarios
     }
 
 
+**Pasajeros**
+Obtener los pasajeros de un contrato determinado
+
+GET: http://localhost:4002/pasajero/:num
+
+POST: http://localhost:4002/pasajero
+    body {
+  "contratos": "1111",
+  "nombre": "pedro"
+    }
+
 
 
     
