@@ -1,9 +1,9 @@
-// const { Router } = require('express');
-// const {getUserByUserapp} = require('../controllers/RecupPassApp')
-// const router = Router();
+const { Router } = require('express');
+const {getUserByUserapp} = require('../controllers/RecupPassApp')
+const router = Router();
 
 
 
-// router.post('/', getUserByUserapp);
+router.post('/', getUserByUserapp);
 
-// module.exports = router;
+module.exports = router;
