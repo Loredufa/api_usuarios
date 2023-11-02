@@ -52,16 +52,17 @@ const getUserByUserapp = async (req, res) => {
         //genero token
         const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 84600})      
         const idUsuario = usuario.id
+        const mail = usuario.email
         //genero numero aleatorio para reseteo
         const numeroAleatorio = Math.floor(1000 + Math.random() * 9000);
         //Envío correo
         const mailSend = await conectionMail(req, res, usuario, numeroAleatorio) 
-        mailSend? res.status(200).send({token, idUsuario, numeroAleatorio}): res.status(401).json({ message: 'No se pudo enviar el correo' })
+        mailSend? res.status(200).send({token, idUsuario, numeroAleatorio, mail}): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
      } else res.status(400).json({ message: 'El usuario no existe' })
 
   } catch (error) { console.log("Algo salio mal: ", error); 
-    //throw error; //lanzo el error
+    
 }
 }
 
