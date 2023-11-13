@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const {getAllbyContract, addPasajero} = require('../controllers/Pasajeros')
+const {getAllbyContract, addPasajero, putPessenger} = require('../controllers/Pasajeros')
 
 
 const router = Router();
@@ -7,6 +7,7 @@ const router = Router();
 
 router.get('/:num', getAllbyContract)
 router.post('/', addPasajero);
+router.put('/:id', putPessenger)
 
 
 

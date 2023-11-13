@@ -31,8 +31,8 @@ const Landing_text = Landing_texts(sequelize)
 Travel.hasMany(Contract)
 Contract.belongsTo(Travel, { foreignKey: 'travelId' }); // coloca travelId en contract
 
-Contract.hasMany(Passenger)
-Passenger.belongsTo (Contract) // coloca Contract_id en Passenger
+// Contract.hasMany(Passenger)
+// Passenger.belongsTo (Contract) // coloca Contract_id en Passenger
 
 Travel.hasMany(Wall)
 Wall.belongsTo (Travel, { foreignKey: 'travelId' }) // coloca TravelId en Wall

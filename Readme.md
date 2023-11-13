@@ -86,6 +86,11 @@ POST: http://localhost:4002/pasajero
   "nombre": "pedro"
     }
 
+Modifica los datos del pasajero
+PUT: http://localhost:4002/pasajero/:id   
+    body {
+        "presente": "true"
+    }
 
 
     

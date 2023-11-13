@@ -31,10 +31,23 @@ const addPasajero = async (req,res) => {
 }
 }
 
-
+//Modificar datos del pasajero
+const putPessenger = async (req, res) => {
+  try {
+    const newData = req.body;
+    const id = req.params.id;   
+    const updateData = await Passenger.update(newData, {
+      where: {
+        id,
+      },
+    })
+    updateData[0] !== 0? res.status(200).send({message:"Pasajero actualizado"}) : 
+    res.status(400).send({message:"No se pudo actualizar el pasajero"})
+  } catch (error) { console.log("Algo salio mal: ", error);   
+}}
 
 module.exports = {
     getAllbyContract,
-    addPasajero
-
+    addPasajero,
+    putPessenger
 }

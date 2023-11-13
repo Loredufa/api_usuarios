@@ -47,7 +47,6 @@ const getUserByUserapp = async (req, res) => {
         usuario: user
       }
     })
-    console.log(usuario)
     if (usuario) {
         //genero token
         const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 84600})      
