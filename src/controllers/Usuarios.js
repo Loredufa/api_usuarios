@@ -9,7 +9,6 @@ const getAllUsuario = async (req, res) => {
     const usuario = await Login.findAll()
     res.send(JSON.stringify(usuario))
   } catch (error) { console.log("Algo salio mal: ", error); 
-    //throw error; //lanzo el error
 }
 }
 
@@ -33,16 +32,25 @@ const addUsuario = async (req,res) => {
 }
 }
 
-//Obtener usuario po id
+//Obtener usuario por id
 const getUsuarioById = async (req, res, next) => {
   try {
-    const id = req.params.id
-    const usuario = await Login.findByPk(id)
-    usuario? res.status(200).send(usuario) : res.status(401).send({message: `No se pudo encontrar el usuario`}) 
-  } catch (error) { console.log("Algo salio mal: ", error); 
-    //throw error; //lanzo el error
-}
-}
+    const id = req.params.id;
+    const usuario = await Login.findByPk(id);
+
+    if (!usuario) {
+      res.status(401).send({ message: `No se pudo encontrar el usuario` });
+    } else if (usuario.estado === "true") {
+      res.status(200).send(usuario);
+    } else {
+      res.status(402).send({ message: { 'El usuario está desactivado': usuario.estado } });
+    }
+  } catch (error) {
+    console.log("Algo salió mal: ", error);
+    res.status(500).send({ message: 'Error interno del servidor' });
+  }
+};
+
 
 //Obtener usuario segun usuario y contraseña
 const getUsuarioByLogin = async (req, res, next) => {
@@ -55,14 +63,17 @@ const getUsuarioByLogin = async (req, res, next) => {
       password
     }
   })
-  if (login) {
+  if (!login) {
+    res.status(404).send({ mensaje: "Usuario no encontrado" });
+ 
+  } else if (login.estado === "true") {
+
     const token = jwt.sign({id: login.id, userName: login.usuario}, config.secretKey,{expiresIn: 86400});
     res.status(200).send({"token" :token, "usuario" : login});
-  } else {
-    res.status(404).send({ mensaje: "Usuario no encontrado" });
-  }
+
+  } else { res.status(402).send({ mensaje: "El usuario está desactivado"});}
+
   } catch (error) { console.log("Algo salio mal: ", error); 
-   // throw error; //lanzo el error
 }
 }
 
@@ -84,7 +95,6 @@ const putUsuario = async (req, res) => {
     updateUsuario[0] !== 0? res.status(200).send({updateUsuario, message:"Contraseña actualizada"}) : 
     res.status(400).send({message:"No se pudo actualizar la contraseña"})}
   } catch (error) { console.log("Algo salio mal: ", error); 
-   // throw error; //lanzo el error
 }
 }
 

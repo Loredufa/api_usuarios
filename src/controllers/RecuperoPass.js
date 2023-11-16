@@ -47,8 +47,8 @@ const getUserByUsername = async (req, res) => {
         usuario: user
       }
     })
-
-    if (usuario) {
+    if(!usuario) {res.status(400).json({ message: 'El usuario no existe' })} 
+    else if (usuario.estado === 'true') {
         //genero token
         const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 84600}) 
         //extraigo id del usuario     
@@ -57,7 +57,7 @@ const getUserByUsername = async (req, res) => {
         const mailSend = await conectionMail(req, res, usuario, token, idUsuario) 
         mailSend? res.status(200).send({token, idUsuario}): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
-     } else res.status(400).json({ message: 'El usuario no existe' })
+     } else {res.status(402).json({ message: 'El usuario está desactivado' })}
 
   } catch (error) { console.log("Algo salio mal: ", error); 
     //throw error; //lanzo el error
