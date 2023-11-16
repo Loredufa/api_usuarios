@@ -11,6 +11,7 @@ const Schedules = require('./Schedule')
 const Hotels = require('./Hotel')
 const Forms = require('./Form')
 const Landing_texts = require('./Landing_text')
+const Emojis = require('./Emoji')
 
 const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}/${dbName}`);
 
@@ -25,6 +26,7 @@ const Schedule = Schedules(sequelize)
 const Hotel = Hotels(sequelize)
 const Form = Forms(sequelize)
 const Landing_text = Landing_texts(sequelize)
+const Emoji = Emojis(sequelize)
 
 
 //Relaciones
@@ -60,5 +62,6 @@ module.exports = {
     Hotel,
     Landing_text,
     Form,
+    Emoji,
     sequelize
 }
