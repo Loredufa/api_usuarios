@@ -10,7 +10,7 @@ const getAllbyContract = async (req, res) => {
         }
       });  
       if (pasajeros.length > 0) {
-        res.status(200).send(pasajeros);
+        res.status(200).send(JSON.stringify(pasajeros));
       } else {
         res.status(404).send({ message: 'Contrato no encontrado' });
       }

@@ -9,6 +9,10 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       primaryKey: true
     },
+    titulo: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      },
     texto: {
       type: DataTypes.STRING,
       allowNull: true,

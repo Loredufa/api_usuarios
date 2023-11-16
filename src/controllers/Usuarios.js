@@ -7,7 +7,7 @@ const config = require('../utils/config')
 const getAllUsuario = async (req, res) => {
   try {
     const usuario = await Login.findAll()
-    res.send(usuario)
+    res.send(JSON.stringify(usuario))
   } catch (error) { console.log("Algo salio mal: ", error); 
     //throw error; //lanzo el error
 }
