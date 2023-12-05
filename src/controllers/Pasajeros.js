@@ -1,5 +1,14 @@
 const { Passenger } = require('../models/index')
 
+//obtener todos los pasajeros
+const getAllPasajeros = async (req, res) => {
+  try {
+    const pasajero = await Passenger.findAll()
+    res.send(JSON.stringify(pasajero))
+  } catch (error) { console.log("Algo salio mal: ", error); 
+}
+}
+
 //obtener todos los pasajeros por numero de contrato
 const getAllbyContract = async (req, res) => {
     try {
@@ -49,5 +58,6 @@ const putPessenger = async (req, res) => {
 module.exports = {
     getAllbyContract,
     addPasajero,
-    putPessenger
+    putPessenger,
+    getAllPasajeros
 }
