@@ -16,7 +16,8 @@ const getAllbyContract = async (req, res) => {
       const pasajeros = await Passenger.findAll({
         where: {
           contratos: contrato,
-        }
+        },
+        order: [['apellido', 'ASC']]
       });  
       if (pasajeros.length > 0) {
         res.status(200).send(JSON.stringify(pasajeros));
