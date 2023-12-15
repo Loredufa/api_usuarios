@@ -92,7 +92,8 @@ PUT: http://localhost:4002/pasajero/:id
         "presente": "true"
     }
 
-
+Verifica los datos del pasajero antes de crearlo, se utiliza para autocompletado de la app
+GET: http://localhost:4002/pasajero//verify/:dni/:num
     
 
 

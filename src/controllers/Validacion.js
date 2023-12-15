@@ -20,6 +20,7 @@ const validacion = async (req, res) =>  {
       }
     } catch (error) {
       console.error("Error al validar usuario: ", error);
+      res.status(500).send({ message: 'Error interno del servidor' });
     }
   }
 

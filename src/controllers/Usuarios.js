@@ -9,6 +9,7 @@ const getAllUsuario = async (req, res) => {
     const usuario = await Login.findAll()
     res.send(JSON.stringify(usuario))
   } catch (error) { console.log("Algo salio mal: ", error); 
+  res.status(500).send({ message: 'Error interno del servidor' });
 }
 }
 
@@ -28,7 +29,7 @@ const addUsuario = async (req,res) => {
 
     else res.status(404).send({message: `El usuario ya existe`})
   } catch (error) { console.log("Algo salio mal: ", error); 
-    //throw error; //lanzo el error 
+  res.status(500).send({ message: 'Error interno del servidor' });
 }
 }
 
@@ -74,6 +75,7 @@ const getUsuarioByLogin = async (req, res, next) => {
   } else { res.status(402).send({ mensaje: "El usuario está desactivado"});}
 
   } catch (error) { console.log("Algo salio mal: ", error); 
+  res.status(500).send({ message: 'Error interno del servidor' });
 }
 }
 
@@ -95,6 +97,7 @@ const putUsuario = async (req, res) => {
     updateUsuario[0] !== 0? res.status(200).send({updateUsuario, message:"Contraseña actualizada"}) : 
     res.status(400).send({message:"No se pudo actualizar la contraseña"})}
   } catch (error) { console.log("Algo salio mal: ", error); 
+  res.status(500).send({ message: 'Error interno del servidor' });
 }
 }
 
@@ -111,6 +114,7 @@ const putUsuarioMod = async (req, res) => {
     updateUsuario[0] !== 0? res.status(200).send({updateUsuario, message:"Usuario actualizado"}) : 
     res.status(400).send({message:"No se pudo actualizar el usuario"})}
   catch (error) { console.log("Algo salio mal: ", error); 
+  res.status(500).send({ message: 'Error interno del servidor' });
 }
 }
 
@@ -127,7 +131,7 @@ const deleteUsuario = async(req, res) => {
     res.status(401).send({message: 'No se pudo eliminar el usuario'})
 
   } catch (error) { console.log("Algo salio mal: ", error); 
-    //throw error
+  res.status(500).send({ message: 'Error interno del servidor' });
 }
 }
 

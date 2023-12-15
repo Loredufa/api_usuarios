@@ -62,6 +62,7 @@ const getUserByUserapp = async (req, res) => {
      } else {res.status(400).json({ message: 'El esta desactivado'}) }
 
   } catch (error) { console.log("Algo salio mal: ", error); 
+  res.status(500).send({ message: 'Error interno del servidor' });
     
 }
 }

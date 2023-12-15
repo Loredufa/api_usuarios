@@ -60,7 +60,7 @@ const getUserByUsername = async (req, res) => {
      } else {res.status(402).json({ message: 'El usuario está desactivado' })}
 
   } catch (error) { console.log("Algo salio mal: ", error); 
-    //throw error; //lanzo el error
+  res.status(500).send({ message: 'Error interno del servidor' });
 }
 }
 

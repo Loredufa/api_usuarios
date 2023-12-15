@@ -33,9 +33,6 @@ const Emoji = Emojis(sequelize)
 Travel.hasMany(Contract)
 Contract.belongsTo(Travel, { foreignKey: 'travelId' }); // coloca travelId en contract
 
-// Contract.hasMany(Passenger)
-// Passenger.belongsTo (Contract) // coloca Contract_id en Passenger
-
 Travel.hasMany(Wall)
 Wall.belongsTo (Travel, { foreignKey: 'travelId' }) // coloca TravelId en Wall
 
@@ -47,6 +44,10 @@ Travel.belongsTo (Hotel, { foreignKey: 'hotelId' }) // coloca hotelId en travel
 
 Schedule.hasMany(Travel) 
 Travel.belongsTo (Schedule, { foreignKey: 'scheduleId' }) //  coloca scheduleId en travel
+
+Passenger.belongsToMany(Login, {through : "Passenger_Login"});
+Login.belongsToMany(Passenger, {through : "Passenger_Login"}); //crea una tabla intermedia
+
 
 
 module.exports = {
