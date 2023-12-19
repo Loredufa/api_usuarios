@@ -81,9 +81,19 @@ Obtener los pasajeros de un contrato determinado
 GET: http://localhost:4002/pasajero/:num
 
 POST: http://localhost:4002/pasajero
-    body {
-  "contratos": "1111",
-  "nombre": "pedro"
+    body {  **Todos los campos deben estar en el body
+  "nombre": "Roberto",
+  "apellido": "Mandela",
+  "dni":"98872700", 
+  "email":"lorenadufaur@gmail.com",
+  "contrato":["999"],
+  "rol": "Pasajero",
+  "estado": "true"
+  "login": "", || true, **El campo debe estar varcio o debe ser true
+  "fechaNac": "2011-01-02",
+  "importe": "190000",
+  "cuotas": "12",
+  "loginId":"4",   **id del padre relacionado
     }
 
 Modifica los datos del pasajero

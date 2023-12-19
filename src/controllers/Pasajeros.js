@@ -1,7 +1,7 @@
 process.env.TZ = 'UTC';
-const { Passenger, Contract, Login} = require('../models/index')
-const { addMonths, differenceInMonths, format, parse } = require('date-fns');
-
+const { Sequelize, sequelize, Passenger, Contract, Login} = require('../models/index')
+const { addMonths, differenceInMonths, format } = require('date-fns');
+const { conectionMail } = require('./RecupPassApp');
 //obtener todos los pasajeros
 const getAllPasajeros = async (req, res) => {
   try {
@@ -35,15 +35,124 @@ const getAllbyContract = async (req, res) => {
   
 
 //Dar de alta un nuevo pasajero
-const addPasajero = async (req,res) => { 
+const addPasajero = async (req, res) => {
   try {
-    const pasajero = req.body  //{dni: 123, contrato: xxx}
-    const newPasajero = await Passenger.create(pasajero)
-    newPasajero? res.status(200).send(newPasajero) :  res.status(404).send({message: `No se pudo crear el pasajero`})
-  } catch (error) { console.log("Algo salio mal: ", error); 
-  res.status(500).send({ message: 'Error interno del servidor' });
-}
-}
+    const pasajero = req.body;
+    const login = req.body.login;
+
+    let newPasajero;
+    const verifyPasajero = await Passenger.findOne({
+      where: { dni: pasajero.dni, contratos: pasajero.contrato },
+    });
+
+    if (verifyPasajero) {
+      res.status(403).send({ message: "El pasajero ya existe para ese contrato" });
+    } else if (login) {
+      const actLogin = await Login.findOne({ where: { usuario: pasajero.dni } });
+
+      if (!actLogin) {
+        res.status(401).send({ message: "Usuario no encontrado" });
+        return;
+      }
+
+      // Actualizar el contrato en el login existente
+      const updatedLogin = await actLogin.update({
+        contrato: [...actLogin.contrato, ...pasajero.contrato],
+      });
+
+      const contratosString = pasajero.contrato.join(', ');
+
+      // Llama a la función para calcular el número de pasajero
+      const numPas = await calcularNumPasajero(contratosString);
+
+      // Crear pasajero
+      newPasajero = await Passenger.create({
+        nombre: pasajero.nombre,
+        dni: pasajero.dni,
+        apellido: pasajero.apellido,
+        contratos: contratosString,
+        fechaNac: pasajero.fechaNac,
+        importe: pasajero.importe,
+        cuotas: pasajero.cuotas,
+        numPas: numPas,
+      });
+
+      if (!newPasajero) {
+        res.status(402).send({ message: "No se pudo crear el Pasajero" });
+        return;
+      }
+
+      specifiedLogin = await Login.findByPk(pasajero.loginId);
+      if (!specifiedLogin) {
+        res.status(404).send({ message: "El login especificado no fue encontrado" });
+        return;
+      }
+
+      // Asocia el nuevo pasajero al login especificado
+      await specifiedLogin.addPassenger(newPasajero);
+
+    } else {
+      // Crear un nuevo login y asociar el pasajero
+      const newLogin = await Login.create({
+        nombre: pasajero.nombre,
+        apellido: pasajero.apellido,
+        password: pasajero.dni,
+        usuario: pasajero.dni,
+        email: pasajero.email,
+        rol: "Pasajero",
+        contrato: pasajero.contrato,
+        estado: true,
+      });
+
+      usuario = newLogin;
+
+      // Envía el correo electrónico
+      const mail = await conectionMail(req, res, usuario);
+
+      // Calcula el número de pasajero
+      const numPas = await calcularNumPasajero(pasajero.contrato);
+
+      // Crea el nuevo pasajero asociado al nuevo login
+      newPasajero = await Passenger.create({
+        ...pasajero,
+        numPas: numPas,
+        contratos: pasajero.contrato.join(', '),
+      });
+
+      if (!newPasajero) {
+        res.status(404).send({ message: "No se pudo crear el Pasajero" });
+        return;
+      }
+
+      specifiedLogin = await Login.findByPk(pasajero.loginId);
+      if (!specifiedLogin) {
+        res.status(404).send({ message: "El login especificado no fue encontrado" });
+        return;
+      }
+
+      // Asocia el nuevo pasajero al login especificado
+      await specifiedLogin.addPassenger(newPasajero);
+    }
+
+    res.status(200).send(newPasajero);
+  } catch (error) {
+    console.log("Algo salió mal: ", error);
+    res.status(500).send({ message: "Error interno del servidor" });
+  }
+};
+
+// Función para calcular el número de pasajero
+
+const calcularNumPasajero = async (contrato) => {
+  // Encuentra la cantidad de pasajeros para el contrato dado
+  const cantidadPasajeros = await Passenger.count({
+    where: { contratos: contrato, numPas: { [Sequelize.Op.not]: null } },
+  });
+   // El número de pasajero será la cantidad actual + 1
+   const numPasajero = cantidadPasajeros + 1;
+   return numPasajero;
+ };
+
 
 //Modificar datos del pasajero
 const putPessenger = async (req, res) => {
@@ -148,7 +257,7 @@ const verifyPessegerToApp = async (req, res) => {
     if (Object.keys(pasajero).length > 0) {
       res.status(200).send(pasajero);
     } else {
-      res.status(400).send({ message: 'No existen datos', cuotas: cuotasDisponibles });
+      res.status(400).send({ message: 'No existen datos', cuotas: cuotasDisponibles, login: false });
     }
   } catch (error) {
     console.log('Algo salió mal: ', error);
@@ -157,16 +266,16 @@ const verifyPessegerToApp = async (req, res) => {
 };
 
 //Eliminar un pasajero
-const deleteUsuario = async(req, res) => {
+const deletePasajero = async(req, res) => {
   try {
     const id = req.params.id
-    const deleteUser = await Login.destroy({
+    const deletePassenger = await Passenger.destroy({
       where: {
         id,
       },
     })
-    deleteUser? res.status(200).send({message: 'Usuario eliminado'}) :
-    res.status(401).send({message: 'No se pudo eliminar el usuario'})
+    deletePassenger? res.status(200).send({message: 'Pasajero eliminado'}) :
+    res.status(401).send({message: 'No se pudo eliminar el pasajero'})
 
   } catch (error) { 
     console.log("Algo salio mal: ", error); 
@@ -175,7 +284,7 @@ const deleteUsuario = async(req, res) => {
 }
 const addPasajeroToApp = async (req, res) => {
 try {
-  const { dni, nombre, apellido, fechaNac, importe, cuotas, contrato, padreId } = req.body;
+  const { dni, nombre, apellido, fechaNac, importe, cuotas, contrato, padreId, email } = req.body;
 } catch (error) { 
   console.log("Algo salio mal: ", error); 
   res.status(500).send({ message: 'Error interno del servidor' });
@@ -189,5 +298,5 @@ module.exports = {
     putPessenger,
     getAllPasajeros,
     verifyPessegerToApp,
-    deleteUsuario
+    deletePasajero
 }

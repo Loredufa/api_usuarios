@@ -17,6 +17,7 @@ const conectionMail = async (req, res, usuario, numeroAleatorio) => {
                 }
             });
         //Armado correo
+        if (numeroAleatorio) {
         const mailOptions = {
             from: `Cuyen <cuyenreset@gmail.com>`,
             to: usuario.email,
@@ -29,6 +30,16 @@ const conectionMail = async (req, res, usuario, numeroAleatorio) => {
         // })
         await transporter.sendMail(mailOptions); 
         return true //el correo se envio correctamente
+      } else {
+        const mailOptions = {
+          from: `Cuyen <cuyenreset@gmail.com>`,
+          to: usuario.email,
+          subject: 'Tu contraseña de Cuyen',
+          text: 'Hola '+ usuario.nombre + ', Te enviamos tu usuario y contraseña para que puedas acceder a nuestra app. Usuario: ' + usuario.usuario + 'Password :' + usuario.password,
+      }
+      await transporter.sendMail(mailOptions); 
+      return true
+      }
         } catch (error) {
             console.error("Algo salió mal:", error);
             return false; //ocurrió un error al intentar enviar el correo
@@ -69,5 +80,6 @@ const getUserByUserapp = async (req, res) => {
 
 
 module.exports = {
-    getUserByUserapp
+    getUserByUserapp,
+    conectionMail
 }
