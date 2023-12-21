@@ -2,6 +2,8 @@ process.env.TZ = 'UTC';
 const { Sequelize, sequelize, Passenger, Contract, Login} = require('../models/index')
 const { addMonths, differenceInMonths, format } = require('date-fns');
 const { conectionMail } = require('./RecupPassApp');
+const { addRedis } = require('./addRedis');
+const { redisClient } = require('../utils/redisClient');
 //obtener todos los pasajeros
 const getAllPasajeros = async (req, res) => {
   try {
@@ -70,6 +72,7 @@ const addPasajero = async (req, res) => {
         nombre: pasajero.nombre,
         dni: pasajero.dni,
         apellido: pasajero.apellido,
+        correo: pasajero.email,
         contratos: contratosString,
         fechaNac: pasajero.fechaNac,
         importe: pasajero.importe,
@@ -81,15 +84,32 @@ const addPasajero = async (req, res) => {
         res.status(402).send({ message: "No se pudo crear el Pasajero" });
         return;
       }
-
       specifiedLogin = await Login.findByPk(pasajero.loginId);
       if (!specifiedLogin) {
         res.status(404).send({ message: "El login especificado no fue encontrado" });
         return;
       }
-
       // Asocia el nuevo pasajero al login especificado
-      await specifiedLogin.addPassenger(newPasajero);
+      await specifiedLogin.addPassenger(newPasajero)
+      // Obtener el ID del pasajero recién creado
+      const pasajeroId = newPasajero.id;
+
+      // Construir la key para la lista en Redis
+      const redisKey = 'pasajeros';
+
+      // Agregar el ID del pasajero a la lista en Redis
+      await redisClient.rpush(redisKey, pasajeroId);
+
+      // Puedes almacenar más detalles del pasajero usando otra clave única, por ejemplo:
+      const detallesPasajeroKey = `pasajero:${pasajeroId}`;
+      const infoPasajero = await redisClient.set(detallesPasajeroKey, JSON.stringify(newPasajero));
+
+      console.log('SOY INFO PASAJEROS', infoPasajero)
+
+      if (!infoPasajero) {
+      res.status(408).send({ message: "No se pudieron enviar los datos a Redis" });
+      return;
+    }
 
     } else {
       // Crear un nuevo login y asociar el pasajero
@@ -117,22 +137,41 @@ const addPasajero = async (req, res) => {
         ...pasajero,
         numPas: numPas,
         contratos: pasajero.contrato.join(', '),
+        correo: pasajero.email
       });
 
       if (!newPasajero) {
-        res.status(404).send({ message: "No se pudo crear el Pasajero" });
+        res.status(406).send({ message: "No se pudo crear el Pasajero" });
         return;
       }
 
       specifiedLogin = await Login.findByPk(pasajero.loginId);
       if (!specifiedLogin) {
-        res.status(404).send({ message: "El login especificado no fue encontrado" });
+        res.status(407).send({ message: "El login especificado no fue encontrado" });
         return;
       }
-
       // Asocia el nuevo pasajero al login especificado
       await specifiedLogin.addPassenger(newPasajero);
     }
+     // Obtener el ID del pasajero recién creado
+     const pasajeroId = newPasajero.id;
+
+     // Construir la key para la lista en Redis
+     const redisKey = 'pasajeros';
+ 
+     // Agregar el ID del pasajero a la lista en Redis
+     await redisClient.rpush(redisKey, pasajeroId);
+ 
+     // Puedes almacenar más detalles del pasajero usando otra clave única, por ejemplo:
+     const detallesPasajeroKey = `pasajero:${pasajeroId}`;
+     const infoPasajero = await redisClient.set(detallesPasajeroKey, JSON.stringify(newPasajero));
+ 
+      console.log('SOY INFO PASAJEROS', infoPasajero)
+
+      if (!infoPasajero) {
+        res.status(408).send({ message: "No se pudieron enviar los datos a Redis" });
+        return;
+      }
 
     res.status(200).send(newPasajero);
   } catch (error) {
@@ -231,6 +270,7 @@ const verifyPessegerToApp = async (req, res) => {
         fechaNac: pessenger.fechaNac,
         importe: infoContract.importe,
         cuotas: cuotasDisponibles,
+        email: login.email,
         login: true,
       };
     } else if (login && !pessenger) {
@@ -240,6 +280,7 @@ const verifyPessegerToApp = async (req, res) => {
         dni: login.dni,
         importe: infoContract.importe,
         cuotas: cuotasDisponibles,
+        email: login.email,
         login: true,
       };
     } else if (!login && pessenger) {
@@ -247,17 +288,18 @@ const verifyPessegerToApp = async (req, res) => {
         nombre: pessenger.nombre,
         apellido: pessenger.apellido,
         dni: pessenger.dni,
+        email: pessenger.correo,
         fechaNac: pessenger.fechaNac,
         importe: infoContract.importe,
         cuotas: cuotasDisponibles,
-        login: false,
+        login: "",
       };
     }
 
     if (Object.keys(pasajero).length > 0) {
       res.status(200).send(pasajero);
     } else {
-      res.status(400).send({ message: 'No existen datos', cuotas: cuotasDisponibles, login: false });
+      res.status(400).send({ message: 'No existen datos', cuotas: cuotasDisponibles, login: "" });
     }
   } catch (error) {
     console.log('Algo salió mal: ', error);
