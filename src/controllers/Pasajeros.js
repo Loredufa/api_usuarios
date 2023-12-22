@@ -4,6 +4,26 @@ const { addMonths, differenceInMonths, format } = require('date-fns');
 const { conectionMail } = require('./RecupPassApp');
 const { addRedis } = require('./addRedis');
 const { redisClient } = require('../utils/redisClient');
+
+//Obtiene los pasajeros que estan relacionados a un usuario por idLogin
+
+const getRelationByIdLogin = async (req, res) => {
+  try{
+const loginId = req.params.loginId;
+// Busca el login con el ID proporcionado
+const loginInstance = await Login.findByPk(loginId);
+if (!loginInstance) {
+  res.status(400).send({ message: "No se encontró el usuario. " })
+} else {
+// Obtén la relación entre Login y Passenger
+const passengers = await loginInstance.getPassengers();
+res.status(200).send(JSON.stringify(passengers))
+}
+} catch (error) { console.log("Algo salio mal: ", error); 
+res.status(500).send({ message: 'Error interno del servidor' });
+}
+}
+
 //obtener todos los pasajeros
 const getAllPasajeros = async (req, res) => {
   try {
@@ -340,5 +360,6 @@ module.exports = {
     putPessenger,
     getAllPasajeros,
     verifyPessegerToApp,
-    deletePasajero
+    deletePasajero,
+    getRelationByIdLogin
 }

@@ -80,13 +80,14 @@ Obtener los pasajeros de un contrato determinado
 
 GET: http://localhost:4002/pasajero/:num
 
+Guarda la informacion del pasajero, lo relaciona con el usuario padre, crea el usuario hijo si es necesario, actualiza los contratos en el usuario hijo si este ya existe, calcula el numpass y envía datos a redis para sincronizar las cuotas en una lista.
 POST: http://localhost:4002/pasajero
     body {  **Todos los campos deben estar en el body
   "nombre": "Roberto",
   "apellido": "Mandela",
   "dni":"98872700", 
   "email":"lorenadufaur@gmail.com",
-  "contrato":["999"],
+  "contrato":["999"],   
   "rol": "Pasajero",
   "estado": "true"
   "login": "", || true, **El campo debe estar varcio o debe ser true
@@ -105,6 +106,9 @@ PUT: http://localhost:4002/pasajero/:id
 Verifica los datos del pasajero antes de crearlo, se utiliza para autocompletado de la app
 GET: http://localhost:4002/pasajero//verify/:dni/:num
     
+
+Obtiene la informacion de la tabla intermedia por id de usuario (loginId) y retorna todos los pasajeros relacionados con este id
+GET: http://localhost:4002/pasajero/relation/:loginId
 
 
 Variable de entorno para el archivo .env
