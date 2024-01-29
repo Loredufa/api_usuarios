@@ -274,6 +274,7 @@ const verifyPessegerToApp = async (req, res) => {
     console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
     // Calcula la diferencia en meses entre la fecha límite y hoy
     const mesesRestantes = differenceInMonths(fechaLimite, new Date());
+    console.log('SOY LOS MESES RESTANTES', mesesRestantes)
     // Frecuencia de las cuotas disponibles
     const frecuenciaCuotas = [1, 3, 6, 9, 12, 18];
     // Filtra las cuotas que el usuario puede elegir
