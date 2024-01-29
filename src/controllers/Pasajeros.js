@@ -250,8 +250,9 @@ const verifyPessegerToApp = async (req, res) => {
         num,
       },
     });
-    const nombreMes = infoContract.mes;
-    const año = infoContract.año;
+    const nombreMes = infoContract.mes.trim();
+    const año = infoContract.año.trim();
+   
     console.log('SOY NOMBRE MES', nombreMes)
     console.log('SOY EL AÑO', año)
 
