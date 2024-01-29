@@ -268,7 +268,7 @@ const verifyPessegerToApp = async (req, res) => {
     console.log('Número del mes:', numeroMes);
 
     // Construir la fecha
-    const fechaLimite = addMonths(new Date(año, numeroMes - 1, 1), -1);
+    const fechaLimite = addMonths(new Date(año, numeroMes, 1), -1);
   
     console.log('Fecha construida:', fechaLimite);
     console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
