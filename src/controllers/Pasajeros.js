@@ -263,15 +263,13 @@ const verifyPessegerToApp = async (req, res) => {
       ];
       return meses.indexOf(nombreMes.toUpperCase()) + 1;
     };
-
-
-
     // Obtener el número del mes
     const numeroMes = obtenerNumeroDeMes(nombreMes);
     console.log('Número del mes:', numeroMes);
 
     // Construir la fecha
-    const fechaLimite = addMonths(new Date(año, numeroMes, 1), -1);
+    const fechaLimite = addMonths(new Date(año, numeroMes - 1, 1), -1);
+  
     console.log('Fecha construida:', fechaLimite);
     console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
     // Calcula la diferencia en meses entre la fecha límite y hoy
