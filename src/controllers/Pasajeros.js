@@ -252,6 +252,8 @@ const verifyPessegerToApp = async (req, res) => {
     });
     const nombreMes = infoContract.mes;
     const año = infoContract.año;
+    console.log('SOY NOMBRE MES', nombreMes)
+    console.log('SOY EL AÑO', año)
 
     // Función para mapear el nombre del mes a su número correspondiente
     const obtenerNumeroDeMes = (nombreMes) => {
@@ -344,6 +346,8 @@ const deletePasajero = async(req, res) => {
     res.status(500).send({ message: 'Error interno del servidor' });
 }
 }
+
+
 const addPasajeroToApp = async (req, res) => {
 try {
   const { dni, nombre, apellido, fechaNac, importe, cuotas, contrato, padreId, email } = req.body;
