@@ -124,8 +124,6 @@ const addPasajero = async (req, res) => {
       const detallesPasajeroKey = `pasajero:${pasajeroId}`;
       const infoPasajero = await redisClient.set(detallesPasajeroKey, JSON.stringify(newPasajero));
 
-      console.log('SOY INFO PASAJEROS', infoPasajero)
-
       if (!infoPasajero) {
       res.status(408).send({ message: "No se pudieron enviar los datos a Redis" });
       return;
