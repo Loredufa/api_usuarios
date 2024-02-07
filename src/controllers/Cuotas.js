@@ -85,17 +85,17 @@ const getStatusCuota = async (req, res, next) => {
             }, 0);
 
             const cuotas_impagas = cuotas.reduce((acumulador, cuota) => {
-                if (cuota.pagada === "0") {
+                if (cuota.pagada === "0" || cuota.pagada === "") {
                     return acumulador + 1;
                 }
                 return acumulador;
             }, 0);
 
-            const cuotasVencidas = cuotas.filter(cuota => cuota.pagada === "0" && new Date(cuota.vencimiento) < new Date());
+            const cuotasVencidas = cuotas.filter(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento) < new Date());
             const cuotas_vencidas = cuotasVencidas.length;  
 
             const monto_pend_pago = cuotas.reduce((sumatoria, cuota) => {
-                if (cuota.pagada === "0") {
+                if (cuota.pagada === "0" || cuota.pagada === "") { 
                     return sumatoria += parseFloat(cuota.importe);
                 }
                 return sumatoria;
@@ -107,11 +107,11 @@ const getStatusCuota = async (req, res, next) => {
 
             const total_contrato = monto_cuota * cant_cuotas         
 
-            const resultado = { "Cuotas pagas": cuotas_pagas, "Cuotas impagas": cuotas_impagas, "Cuotas vencidas": cuotas_vencidas, "Monto pendiente": monto_pend_pago,
+            const resultados = { "Cuotas pagas": cuotas_pagas, "Cuotas impagas": cuotas_impagas, "Cuotas vencidas": cuotas_vencidas, "Monto pendiente": monto_pend_pago,
             "Monto cuota": monto_cuota, "Cantidad cuotas": cant_cuotas, "Total contrato": total_contrato
         };
 
-            res.status(200).send(resultado);
+            res.status(200).send(resultados);
         }
 
     } catch (error) {
