@@ -110,6 +110,32 @@ GET: http://localhost:4002/pasajero//verify/:dni/:num
 Obtiene la informacion de la tabla intermedia por id de usuario (loginId) y retorna todos los pasajeros relacionados con este id
 GET: http://localhost:4002/pasajero/relation/:loginId
 
+**Cuotas**
+
+Obtener todas las cuotas
+GET: http://localhost:4002/cuotas
+
+
+Obtener cuotas por id de cuota
+GET: http://localhost:4002/cuotas/:id
+
+
+Obtener cuotas de un pasajero en particular, es necesario contar con el num: numero de contrato del pasajero y el num_pass numero de pasajero para ese contrato. 
+GET: http://localhost:4002/cuotas/allfee/:num/:num_pass
+
+
+Obtener la información de las cuotas para mostrar en la pantalla del cerdito en la app. es necesario contar con el num: numero de contrato del pasajero y el num_pass numero de pasajero para ese contrato. 
+GET: http://localhost:4002/cuotas/statusfee/:num/:num_pass
+
+
+Modificar una cuota
+PUT: http://localhost:4002/cuotas
+body: {
+    "importe": "600"
+}
+
+
+Ver rutas crear y eliminar solo para pruebas en el archivo de rutas
 
 Variable de entorno para el archivo .env
 

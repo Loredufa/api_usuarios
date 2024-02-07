@@ -93,7 +93,7 @@ const getStatusCuota = async (req, res, next) => {
 
             const cuotasVencidas = cuotas.filter(cuota => cuota.pagada === "0" && new Date(cuota.vencimiento) < new Date());
             const cuotas_vencidas = cuotasVencidas.length;  
-            
+
             const monto_pend_pago = cuotas.reduce((sumatoria, cuota) => {
                 if (cuota.pagada === "0") {
                     return sumatoria += parseFloat(cuota.importe);
@@ -138,7 +138,7 @@ const putCuota = async (req, res) => {
 }
 }
 
-//Eliminar un usuario
+//Eliminar una cuota
 const deleteCuota = async(req, res) => {
   try {
     const id = req.params.id
