@@ -2,7 +2,7 @@ process.env.TZ = 'UTC';
 const { Sequelize, sequelize, Passenger, Contract, Login} = require('../models/index')
 const { addMonths, differenceInMonths, format } = require('date-fns');
 const { conectionMail } = require('./RecupPassApp');
-const { addRedis } = require('./addRedis');
+//const { addRedis } = require('./addRedis');
 const { redisClient } = require('../utils/redisClient');
 
 //Obtiene los pasajeros que estan relacionados a un usuario por idLogin
@@ -77,7 +77,7 @@ const addPasajero = async (req, res) => {
         return;
       }
 
-      // Actualizar el contrato en el login existente
+      // Actualiza el contrato en el login existente
       const updatedLogin = await actLogin.update({
         contrato: [...actLogin.contrato, ...pasajero.contrato],
       });
@@ -87,7 +87,7 @@ const addPasajero = async (req, res) => {
       // Llama a la función para calcular el número de pasajero
       const numPas = await calcularNumPasajero(contratosString);
 
-      // Crear pasajero
+      // Crea el pasajero
       newPasajero = await Passenger.create({
         nombre: pasajero.nombre,
         dni: pasajero.dni,
@@ -114,13 +114,13 @@ const addPasajero = async (req, res) => {
       // Obtener el ID del pasajero recién creado
       const pasajeroId = newPasajero.id;
 
-      // Construir la key para la lista en Redis
+      // Construye la key para la lista en Redis
       const redisKey = 'pasajeros';
 
       // Agregar el ID del pasajero a la lista en Redis
       await redisClient.rpush(redisKey, pasajeroId);
 
-      // Puedes almacenar más detalles del pasajero usando otra clave única, por ejemplo:
+      // Almacena más detalles del pasajero usando otra clave única
       const detallesPasajeroKey = `pasajero:${pasajeroId}`;
       const infoPasajero = await redisClient.set(detallesPasajeroKey, JSON.stringify(newPasajero));
 
@@ -148,7 +148,7 @@ const addPasajero = async (req, res) => {
       const mail = await conectionMail(req, res, usuario);
 
       // Calcula el número de pasajero
-      const numPas = await calcularNumPasajero(pasajero.contrato);
+     const numPas = await calcularNumPasajero(pasajero.contrato);
 
       // Crea el nuevo pasajero asociado al nuevo login
       newPasajero = await Passenger.create({
