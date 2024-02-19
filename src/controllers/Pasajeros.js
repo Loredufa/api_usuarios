@@ -348,16 +348,6 @@ const deletePasajero = async(req, res) => {
 }
 
 
-const addPasajeroToApp = async (req, res) => {
-try {
-  const { dni, nombre, apellido, fechaNac, importe, cuotas, contrato, padreId, email } = req.body;
-} catch (error) { 
-  console.log("Algo salio mal: ", error); 
-  res.status(500).send({ message: 'Error interno del servidor' });
-}
-}
-
-
 module.exports = {
     getAllbyContract,
     addPasajero,
