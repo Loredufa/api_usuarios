@@ -250,6 +250,7 @@ const verifyPessegerToApp = async (req, res) => {
     });
     const nombreMes = infoContract.mes.trim();
     const año = infoContract.año.trim();
+    const monto = infoContract.impTot.trim();
    
     console.log('SOY NOMBRE MES', nombreMes)
     console.log('SOY EL AÑO', año)
@@ -290,20 +291,20 @@ const verifyPessegerToApp = async (req, res) => {
         apellido: login.apellido,
         dni: login.dni,
         fechaNac: pessenger.fechaNac,
-        importe: infoContract.importe,
         cuotas: cuotasDisponibles,
         email: login.email,
         login: true,
+        monto: monto
       };
     } else if (login && !pessenger) {
       pasajero = {
         nombre: login.nombre,
         apellido: login.apellido,
         dni: login.dni,
-        importe: infoContract.importe,
         cuotas: cuotasDisponibles,
         email: login.email,
         login: true,
+        monto: monto
       };
     } else if (!login && pessenger) {
       pasajero = {
@@ -311,10 +312,9 @@ const verifyPessegerToApp = async (req, res) => {
         apellido: pessenger.apellido,
         dni: pessenger.dni,
         email: pessenger.correo,
-        fechaNac: pessenger.fechaNac,
-        importe: infoContract.importe,
         cuotas: cuotasDisponibles,
         login: "",
+        monto: monto
       };
     }
 
