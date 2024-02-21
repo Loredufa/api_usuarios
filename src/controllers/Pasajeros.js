@@ -321,7 +321,7 @@ const verifyPessegerToApp = async (req, res) => {
     if (Object.keys(pasajero).length > 0) {
       res.status(200).send(pasajero);
     } else {
-      res.status(400).send({ message: 'No existen datos', cuotas: cuotasDisponibles, login: "" });
+      res.status(400).send({ message: 'No existen datos', cuotas: cuotasDisponibles, login: "", monto: monto });
     }
   } catch (error) {
     console.log('Algo salió mal: ', error);
