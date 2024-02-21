@@ -1,4 +1,4 @@
-const {Sequelize, Op, DataTypes} = require('sequelize')
+const {Sequelize} = require('sequelize')
 const {dbUser, dbName, dbPassword, dbHost} = require('../utils/config')
 const Travels = require('./Travel')
 const Landings = require('./Landing')
@@ -12,6 +12,7 @@ const Hotels = require('./Hotel')
 const Forms = require('./Form')
 const Landing_texts = require('./Landing_text')
 const Emojis = require('./Emoji')
+const Versions = require('./Version')
 
 const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}/${dbName}`);
 
@@ -27,11 +28,15 @@ const Hotel = Hotels(sequelize)
 const Form = Forms(sequelize)
 const Landing_text = Landing_texts(sequelize)
 const Emoji = Emojis(sequelize)
+const Version = Versions(sequelize)
 
 
 //Relaciones
 Travel.hasMany(Contract)
 Contract.belongsTo(Travel, { foreignKey: 'travelId' }); // coloca travelId en contract
+
+// Contract.hasMany(Passenger)
+// Passenger.belongsTo (Contract) // coloca Contract_id en Passenger
 
 Travel.hasMany(Wall)
 Wall.belongsTo (Travel, { foreignKey: 'travelId' }) // coloca TravelId en Wall
@@ -45,14 +50,8 @@ Travel.belongsTo (Hotel, { foreignKey: 'hotelId' }) // coloca hotelId en travel
 Schedule.hasMany(Travel) 
 Travel.belongsTo (Schedule, { foreignKey: 'scheduleId' }) //  coloca scheduleId en travel
 
-Passenger.belongsToMany(Login, {through : "Passenger_Login"});
-Login.belongsToMany(Passenger, {through : "Passenger_Login"}); //crea una tabla intermedia
-
-
 
 module.exports = {
-    Sequelize,
-    Op,
     conn: sequelize,
     Travel,
     Landing,
@@ -66,5 +65,6 @@ module.exports = {
     Landing_text,
     Form,
     Emoji,
+    Version,
     sequelize
 }
