@@ -25,7 +25,7 @@ const addUsuario = async (req,res) => {
     //Genera token del usuario
     //Estructura del tolen: ({dato a guardar}, palabrasecreta, tiempo de expiracion)
     const token = jwt.sign({id: newUsuario.id, userName: newUsuario.usuario}, config.secretKey,{expiresIn: 86400});
-    res.status(200).send(token) }  
+    res.status(200).send(token, usuarioCompleto) }  
 
     else res.status(404).send({message: `El usuario ya existe`})
   } catch (error) { console.log("Algo salio mal: ", error); 
