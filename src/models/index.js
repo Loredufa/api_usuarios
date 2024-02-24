@@ -1,4 +1,4 @@
-const {Sequelize} = require('sequelize')
+const {Sequelize, Op, DataTypes} = require('sequelize')
 const {dbUser, dbName, dbPassword, dbHost} = require('../utils/config')
 const Travels = require('./Travel')
 const Landings = require('./Landing')
@@ -55,6 +55,8 @@ Login.belongsToMany(Passenger, {through : "Passenger_Login"}); //crea una tabla 
 
 
 module.exports = {
+    Sequelize,
+    Op,
     conn: sequelize,
     Travel,
     Landing,
