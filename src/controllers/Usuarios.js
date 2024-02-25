@@ -1,4 +1,4 @@
-const { Login } = require('../models/index')
+const { Sequelize, Login } = require('../models/index')
 const { validacion } = require('./Validacion')
 const jwt = require('jsonwebtoken');
 const config = require('../utils/config')
@@ -8,6 +8,20 @@ const getAllUsuario = async (req, res) => {
   try {
     const usuario = await Login.findAll()
     res.send(JSON.stringify(usuario))
+  } catch (error) { console.log("Algo salio mal: ", error); 
+  res.status(500).send({ message: 'Error interno del servidor' });
+}
+}
+
+//Verifica si existe un usuario por dni
+const verifyUsuario = async (req,res) => {
+  try {
+    const usr = await Login.findOne({
+      where: {
+        usuario: req.params.dni
+      }
+    });
+    usr? res.status(200).send(usr): res.status(401).send({message: 'No se encontraron usuarios en la verificacion'});
   } catch (error) { console.log("Algo salio mal: ", error); 
   res.status(500).send({ message: 'Error interno del servidor' });
 }
@@ -143,6 +157,7 @@ module.exports = {
     putUsuario,
     deleteUsuario,
     getUsuarioByLogin,
-    putUsuarioMod
+    putUsuarioMod,
+    verifyUsuario
 
 }
