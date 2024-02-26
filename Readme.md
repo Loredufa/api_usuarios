@@ -25,6 +25,9 @@ export function getUsers(){
 
 GET: http://localhost:4002/usuarios 
 
+Para verificar si un usuarios ya existe 
+GET: http://localhost:4002/usuarios/verify/:dni
+
 
 POST: http://localhost:4002/usuarios 
 
