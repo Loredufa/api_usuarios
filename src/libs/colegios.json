@@ -1,0 +1,434 @@
+[
+    {
+        "nombre": "JOSE HERNANDEZ"
+    },
+    {
+        "nombre": "INSTITUTO SAN LUIS GONZAGA"
+    },
+    {
+        "nombre": "ALMAFUERTE"
+    },
+    {
+        "nombre": "CASTRO BARROS"
+    },
+    {
+        "nombre": "COLEGIO CERVANTES"
+    },
+    {
+        "nombre": "COLEGIO DE LA REINA"
+    },
+    {
+        "nombre": "COLEGIO DEL SOL"
+    },
+    {
+        "nombre": "COLEGIO EL BOSQUE"
+    },
+    {
+        "nombre": "COLEGIO SAN JOSE"
+    },
+    {
+        "nombre": "COLEGIO SAN MARCOS"
+    },
+    {
+        "nombre": "COLEGIO SANTA MARIA"
+    },
+    {
+        "nombre": "DEL PILAR"
+    },
+    {
+        "nombre": "EGB Nº16"
+    },
+    {
+        "nombre": "ESCUELA MEDIA Nº14"
+    },
+    {
+        "nombre": "ESCUELA N° 25"
+    },
+    {
+        "nombre": "ESCUELA N° 28"
+    },
+    {
+        "nombre": "ESCUELA N°1 MANUEL BELGRANO"
+    },
+    {
+        "nombre": "ESCUELA Nº 6"
+    },
+    {
+        "nombre": "ESCUELA Nº 73"
+    },
+    {
+        "nombre": "ESCUELA Nº 9 RICARDO MONNERS SANZ"
+    },
+    {
+        "nombre": "FRAY MAMERTO ESQUIU"
+    },
+    {
+        "nombre": "GREENFIELD COLLEGE"
+    },
+    {
+        "nombre": "IMEI"
+    },
+    {
+        "nombre": "INMACULADA CONCEPCION"
+    },
+    {
+        "nombre": "INSTITUTO ARGENTINA"
+    },
+    {
+        "nombre": "INSTITUTO CERVANTES"
+    },
+    {
+        "nombre": "INSTITUTO DON ORIONE"
+    },
+    {
+        "nombre": "INSTITUTO ESTEBAN ECHEVERRIA"
+    },
+    {
+        "nombre": "INSTITUTO MAGDALENA ABRAIN"
+    },
+    {
+        "nombre": "INSTITUTO MARCELO T. DE ALVEAR"
+    },
+    {
+        "nombre": "INSTITUTO SAENZ"
+    },
+    {
+        "nombre": "INSTITUTO SAGRADO CORAZON"
+    },
+    {
+        "nombre": "INSTITUTO SANTA INES"
+    },
+    {
+        "nombre": "LAS CAÑUELAS"
+    },
+    {
+        "nombre": "MODELO SAN JOSE"
+    },
+    {
+        "nombre": "NUESTRA SEÑORA DEL HUERTO"
+    },
+    {
+        "nombre": "PARISH ROBERTSON"
+    },
+    {
+        "nombre": "PESTALOZZI"
+    },
+    {
+        "nombre": "SAN FRANCISCO DE ASIS"
+    },
+    {
+        "nombre": "SAN FRANCISCO JAVIER"
+    },
+    {
+        "nombre": "SANTA ISABEL"
+    },
+    {
+        "nombre": "ESC N°17"
+    },
+    {
+        "nombre": "AVE MARIA"
+    },
+    {
+        "nombre": "BAYARD"
+    },
+    {
+        "nombre": "CHARLES CHAPLIN"
+    },
+    {
+        "nombre": "COLEGIO DEL MIRADOR"
+    },
+    {
+        "nombre": "COLEGIO LIMERIK"
+    },
+    {
+        "nombre": "COLEGIO SUPERIOR VICTORIA"
+    },
+    {
+        "nombre": "E.E.M. Nª 214"
+    },
+    {
+        "nombre": "E.E.M. Nª 2"
+    },
+    {
+        "nombre": "ECEAB"
+    },
+    {
+        "nombre": "E.E.M. Nª 202"
+    },
+    {
+        "nombre": "EGB Nª 4"
+    },
+    {
+        "nombre": "EL SALVADOR"
+    },
+    {
+        "nombre": "ESCUELA Nª 11"
+    },
+    {
+        "nombre": "ESCUELA ARGENTINA MODELO"
+    },
+    {
+        "nombre": "ESCUELA Nº 17"
+    },
+    {
+        "nombre": "ESCUELA Nª 52"
+    },
+    {
+        "nombre": "ESCUELA TECNICA Nº 3"
+    },
+    {
+        "nombre": "ESTABLECIMIENTO EDUCATIVO ARGENTINO"
+    },
+    {
+        "nombre": "EUSTAQUIO GOMEZ"
+    },
+    {
+        "nombre": "IKASTOLA"
+    },
+    {
+        "nombre": "INSTITUTO TECNICO SAN CAYETANO"
+    },
+    {
+        "nombre": "INSTITUTO ARGENTINO"
+    },
+    {
+        "nombre": "INSTITUTO ARGENTINO JAPONES"
+    },
+    {
+        "nombre": "INSTITUTO JOSE MARMOL"
+    },
+    {
+        "nombre": "INSTITUTO LOURDES"
+    },
+    {
+        "nombre": "INSTITUTO MANUEL ESTRADA"
+    },
+    {
+        "nombre": "INSTITUTO NIÑO DE BELEN"
+    },
+    {
+        "nombre": "INSTITUTO SAGRADO CORAZON"
+    },
+    {
+        "nombre": "INSTITUTO SANTA ROSA"
+    },
+    {
+        "nombre": "INSTITUTO SENDAS VERDES"
+    },
+    {
+        "nombre": "JESUS MARIA"
+    },
+    {
+        "nombre": "JOSE LEON LARRE"
+    },
+    {
+        "nombre": "JUAN ENRIQUE PESTALOZZI"
+    },
+    {
+        "nombre": "LAS CAÑUELAS"
+    },
+    {
+        "nombre": "LUCIANO H. VALETTE"
+    },
+    {
+        "nombre": "E.E.M. Nª 12 BANFIELD CONABE"
+    },
+    {
+        "nombre": "MEDIA Nª 15, VICENTE SIERRA"
+    },
+    {
+        "nombre": "MODELO BANFIELD"
+    },
+    {
+        "nombre": "MODELO PABLO PICASSO"
+    },
+    {
+        "nombre": "MODELO PARQUE BARON"
+    },
+    {
+        "nombre": "NUESTRA SEÑORA DEL ROSARIO"
+    },
+    {
+        "nombre": "NUEVA ESCUELA DEL SUR"
+    },
+    {
+        "nombre": "NUEVO COLEGIO GLEW"
+    },
+    {
+        "nombre": "PRESENTACION TURISMO"
+    },
+    {
+        "nombre": "REGINA APOSTOLORUM"
+    },
+    {
+        "nombre": "ROSARIO VERA PEÑALOZA"
+    },
+    {
+        "nombre": "SAINT JEAN"
+    },
+    {
+        "nombre": "SAN FRANCISCO JAVIER"
+    },
+    {
+        "nombre": "SANTA MARIA"
+    },
+    {
+        "nombre": "STELLA MARIS"
+    },
+    {
+        "nombre": "SENDEROS AZULES"
+    },
+    {
+        "nombre": "ESCUELA Nª 66"
+    },
+    {
+        "nombre": "ESCUELA Nª 16"
+    },
+    {
+        "nombre": "NUEVO COLEGIO BURZACO"
+    },
+    {
+        "nombre": "COLONIA DIA DEL MAESTRO"
+    },
+    {
+        "nombre": "EGB 39 IGNACIO FERMIN RODRIGUEZ"
+    },
+    {
+        "nombre": "ESCUELA 1 MONTE GRANDE"
+    },
+    {
+        "nombre": "COLEGIO ASUNCION DE MARIA "
+    },
+    {
+        "nombre": "ESCUELA N°8 SARGENTO CABRAL "
+    },
+    {
+        "nombre": "ESCUELA N°1 PRESIDENTE PERON "
+    },
+    {
+        "nombre": "THOMAS JEFFERSON"
+    },
+    {
+        "nombre": "EP N°18"
+    },
+    {
+        "nombre": "NUESTRA SEÑORA DE LA PAZ"
+    },
+    {
+        "nombre": "COLEGIO MARIA MONTESSORI"
+    },
+    {
+        "nombre": "INSTITUTO COREANO ARGENTINO"
+    },
+    {
+        "nombre": "ESCUELA Nº20"
+    },
+    {
+        "nombre": "COLEGIO SAN PIO "
+    },
+    {
+        "nombre": "SANTA CLARA DE ASIS"
+    },
+    {
+        "nombre": "ESCUELA N° 7  GUILLERMO HUDSON "
+    },
+    {
+        "nombre": "EP. N°19"
+    },
+    {
+        "nombre": "MARIANO MORENO "
+    },
+    {
+        "nombre": "ESC. Nº70 "
+    },
+    {
+        "nombre": "EP Nº29"
+    },
+    {
+        "nombre": "ESCUELA Nro 60"
+    },
+    {
+        "nombre": "SILOS DE CAÑUELAS"
+    },
+    {
+        "nombre": "COL. STA. MARIA GORETTI"
+    },
+    {
+        "nombre": "E.P. Nº17"
+    },
+    {
+        "nombre": "ESCUELA Nº54"
+    },
+    {
+        "nombre": "EDUCACIONAL MODELO"
+    },
+    {
+        "nombre": "NUEVO COLEGIO MONTE GRANDE"
+    },
+    {
+        "nombre": "EP Nº15"
+    },
+    {
+        "nombre": "JESUS MARIA - F.VARELA"
+    },
+    {
+        "nombre": "INST. MANUEL BELGRANO"
+    },
+    {
+        "nombre": "EP Nº 9"
+    },
+    {
+        "nombre": "COLEGIO EL ENCUENTRO"
+    },
+    {
+        "nombre": "SAN COSME SAN DAMIAN "
+    },
+    {
+        "nombre": "INSTITUTO AVELLANEDA "
+    },
+    {
+        "nombre": "INSTITUTO ALVEAR "
+    },
+    {
+        "nombre": "COLEGIO BABAR"
+    },
+    {
+        "nombre": "ESCUELA GENERAL JOSE DE SAN MARTIN Nº21"
+    },
+    {
+        "nombre": "ENSPA"
+    },
+    {
+        "nombre": "MARIA AUXILIADORA MORON "
+    },
+    {
+        "nombre": "MODELO MARMOL"
+    },
+    {
+        "nombre": "INMACULADA CONCEPCIÓN VILLA DOMINICO"
+    },
+    {
+        "nombre": "VICENTA VIDAL BOU"
+    },
+    {
+        "nombre": "DOLTO"
+    },
+    {
+        "nombre": "COLEGIO DEL CASTILLO "
+    },
+    {
+        "nombre": "ESCUELA NRO 10 ALAS ARGENTINAS"
+    },
+    {
+        "nombre": "NTRA.SRA. DE FATIMA"
+    },
+    {
+        "nombre": "COLEGIO IRLANDES"
+    },
+    {
+        "nombre": "COLEGIO INDEPENDIENTE"
+    },
+    {
+        "nombre": "COLEGIO SIGLO XXI"
+    }
+]

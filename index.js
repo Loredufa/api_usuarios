@@ -9,6 +9,7 @@ const {conn} = require('./src/models')
 const {PORT} = require('./src/utils/config/index')
 const expressJson = express.json(); 
 const bodyParser  = express.urlencoded({extended: true});
+const {createColegios} = require('./src/controllers/InitialSetup')
 
 //Headers
 
@@ -32,6 +33,7 @@ app.use(errorHandler)
 conn.sync({force:false}).then(() => {
   console.log('Base de datos conectada')
   app.listen(PORT, () => {
+    createColegios()
     console.log(`Servidor corriendo en puerto ${PORT}`)
   })
 })

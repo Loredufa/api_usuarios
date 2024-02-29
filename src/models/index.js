@@ -13,6 +13,7 @@ const Forms = require('./Form')
 const Landing_texts = require('./Landing_text')
 const Emojis = require('./Emoji')
 const Versions = require('./Version')
+const Schools = require('./School')
 
 const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}/${dbName}`);
 
@@ -29,6 +30,7 @@ const Form = Forms(sequelize)
 const Landing_text = Landing_texts(sequelize)
 const Emoji = Emojis(sequelize)
 const Version = Versions(sequelize)
+const School = Schools(sequelize)
 
 
 //Relaciones
@@ -71,5 +73,6 @@ module.exports = {
     Form,
     Emoji,
     Version,
+    School,
     sequelize
 }

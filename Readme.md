@@ -137,8 +137,18 @@ body: {
     "importe": "600"
 }
 
-
 Ver rutas crear y eliminar solo para pruebas en el archivo de rutas
+
+**Colegios**
+
+Los colegios se crean al iniciar la api.
+Para consultar obtener todos los colegios
+
+GET http://localhost:4002/colegios
+
+
+Para verificar si el colegio pertenece a un contrato determinado
+
 
 Variable de entorno para el archivo .env
 
