@@ -34,6 +34,29 @@ const getAllSchools = async (req, res) => {
     }
   };
 
+  //Validacion de contrato y colegio
+const verifySchoolContract = async (req, res, next) => {
+  try {
+    const colegio = req.body.colegio
+    const contrato = req.body.contrato
+    const contract = await Contract.findOne({
+    where: {
+      num: contrato,
+      colegio: colegio
+    }
+  })
+  if (!contract) {
+    res.status(404).send({ mensaje: "No hay ningun contrato para ese colegio" });
+
+  } else { res.status(202).send(contract);}
+
+  } catch (error) { console.log("Algo salio mal: ", error); 
+  res.status(500).send({ message: 'Error interno del servidor' });
+}
+}
+
+
   module.exports = {
-    getAllSchools
+    getAllSchools,
+    verifySchoolContract
 }
