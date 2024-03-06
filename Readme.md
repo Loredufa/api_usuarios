@@ -107,7 +107,7 @@ PUT: http://localhost:4002/pasajero/:id
     }
 
 Verifica los datos del pasajero antes de crearlo, se utiliza para autocompletado de la app
-GET: http://localhost:4002/pasajero//verify/:dni/:num
+GET: http://localhost:4002/pasajero/verify/:dni/:num
     
 
 Obtiene la informacion de la tabla intermedia por id de usuario (loginId) y retorna todos los pasajeros relacionados con este id
@@ -148,6 +148,11 @@ GET http://localhost:4002/colegios
 
 
 Para verificar si el colegio pertenece a un contrato determinado
+POST: http://localhost:4002/colegios/verify
+{
+  "contrato": "1081",
+  "colegio": "NUESTRA SEÑORA DEL HUERTO"
+}
 
 
 Variable de entorno para el archivo .env

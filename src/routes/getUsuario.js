@@ -1,10 +1,11 @@
 const { Router } = require('express');
-const {getAllUsuario, addUsuario, getUsuarioById, putUsuario, deleteUsuario, getUsuarioByLogin, putUsuarioMod, verifyUsuario} = require('../controllers/Usuarios')
+const {getAllUsuario, addUsuario, getUsuarioById, getAllCoordinadores, putUsuario, deleteUsuario, getUsuarioByLogin, putUsuarioMod, verifyUsuario} = require('../controllers/Usuarios')
 const verifyToken = require('../utils/middlewares/verifyToken');
 
 const router = Router();
 
 router.get('/', verifyToken, getAllUsuario)
+router.get('/coordinador', verifyToken, getAllCoordinadores)
 router.get('/:id',verifyToken, getUsuarioById)
 router.get('/verify/:dni',verifyToken, verifyUsuario)
 router.post('/', verifyToken, addUsuario);

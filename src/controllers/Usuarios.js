@@ -13,6 +13,21 @@ const getAllUsuario = async (req, res) => {
 }
 }
 
+//Obtener todos los coordinadores
+const getAllCoordinadores = async (req, res) => {
+  try {
+    const usuario = await Login.findAll({
+      where: {
+        rol: "Coordinador"
+      }
+  })
+    res.send(JSON.stringify(usuario))
+  } catch (error) { console.log("Algo salio mal: ", error); 
+  res.status(500).send({ message: 'Error interno del servidor' });
+}
+}
+
+
 //Verifica si existe un usuario por dni
 const verifyUsuario = async (req,res) => {
   try {
@@ -158,6 +173,7 @@ module.exports = {
     deleteUsuario,
     getUsuarioByLogin,
     putUsuarioMod,
-    verifyUsuario
+    verifyUsuario,
+    getAllCoordinadores
 
 }
