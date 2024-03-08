@@ -25,6 +25,11 @@ export function getUsers(){
 
 GET: http://localhost:4002/usuarios 
 
+
+Para obtener todos los coordinadores
+GET: http://localhost:4002/usuarios/coordinador
+
+
 Para verificar si un usuarios ya existe 
 GET: http://localhost:4002/usuarios/verify/:dni
 
@@ -123,9 +128,12 @@ Obtener cuotas por id de cuota
 GET: http://localhost:4002/cuotas/:id
 
 
-Obtener cuotas de un pasajero en particular, es necesario contar con el num: numero de contrato del pasajero y el num_pass numero de pasajero para ese contrato. 
+Obtener cuotas para mostrar en app en seccion cuota para abonar (devuelve cuota de mes en curos o mes siguiente o plan finalizado o plan en mora), es necesario contar con el num: numero de contrato del pasajero y el num_pass numero de pasajero para ese contrato. 
 GET: http://localhost:4002/cuotas/allfee/:num/:num_pass
 
+
+Obtener todas las cuotas de un pasajero - se utiliza para pruebas
+GET: http://localhost:4002/cuotas/bytest/:num/:num_pass
 
 Obtener la información de las cuotas para mostrar en la pantalla del cerdito en la app. es necesario contar con el num: numero de contrato del pasajero y el num_pass numero de pasajero para ese contrato. 
 GET: http://localhost:4002/cuotas/statusfee/:num/:num_pass

@@ -44,26 +44,66 @@ const getFeeById = async (req, res, next) => {
 };
 
 
-//Obtener todas las cuotas de un pasajero **Cambiar a id pasajero luego de la migracion**
+//Obtener todas las cuotas de un pasajero 
 const getCuotaByPessenger = async (req, res, next) => {
   try {
-    const num = req.params.num
-    const num_pass = req.params.num_pass
+    const num = req.params.num;
+    const num_pass = req.params.num_pass;
     const cuotas = await Fee.findAll({
-    where: {
-        contrato_cuyen : num,
-        numPass : num_pass
+      where: {
+        contrato_cuyen: num,
+        numPass: num_pass
+      }
+    });
+    if (!cuotas || cuotas.length === 0) {
+      return res.status(404).send({ mensaje: "Aun no hay cuotas para mostrar" });
+    } 
+    const cuotaVencida = cuotas.some(cuota => cuota.pendiente === '1' && new Date(cuota.vencimiento) < new Date());
+    const cuotaActual = cuotas.find(cuota => cuota.pendiente === '1' && new Date(cuota.vencimiento).getMonth() === new Date().getMonth());
+    const cuotaSiguiente = cuotas.find(cuota => cuota.pendiente === '1');
+    if (cuotaVencida) {
+      return res.status(200).send([{ en_mora: true }]);
     }
-  })
-  cuotas? res.status(200).send(cuotas) :
-    res.status(404).send({ mensaje: "Aun no hay cuotas para mostrar" })
+    if (cuotaActual) {
+      return res.status(200).send([cuotaActual]);
+    }
+    if (!cuotaSiguiente) {
+      return res.status(401).send({ mensaje: "Su plan está finalizado" });
+    } else {
+      const proxCuota = Array.isArray(cuotaSiguiente) ? cuotaSiguiente.sort((a, b) => b.numero - a.numero)[0] : cuotaSiguiente;
+      res.status(200).send([proxCuota]);
+    }
+  } catch (error) {
+    console.log("Algo salió mal: ", error);
+    res.status(500).send({ message: 'Error interno del servidor' });
+  }
+};
 
-  } catch (error) { console.log("Algo salio mal: ", error); 
-  res.status(500).send({ message: 'Error interno del servidor' });
-}
-}
+//Obtener todas las cuotas de un pasajero 
+const getCuotaByTest = async (req, res, next) => {
+  try {
+    const num = req.params.num;
+    const num_pass = req.params.num_pass;
+    const cuotas = await Fee.findAll({
+      where: {
+        contrato_cuyen: num,
+        numPass: num_pass
+      }
+    });
+    if (!cuotas || cuotas.length === 0) {
+      return res.status(404).send({ mensaje: "Aun no hay cuotas para mostrar" });
+    } else {
+      res.status(200).send(cuotas);
+    }
+    
+  } catch (error) {
+    console.log("Algo salió mal: ", error);
+    res.status(500).send({ message: 'Error interno del servidor' });
+  }
+};
 
-//Obtener todas las cuotas de un pasajero **Cambiar a id pasajero luego de la migracion**
+
+//Obtener el estado de todas las cuotas de un pasajero 
 const getStatusCuota = async (req, res, next) => {
     try {
         const num = req.params.num;
@@ -162,5 +202,6 @@ module.exports = {
     putCuota,
     deleteCuota,
     getStatusCuota,
-    addCuota
+    addCuota,
+    getCuotaByTest
 }
