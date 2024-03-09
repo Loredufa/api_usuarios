@@ -52,27 +52,32 @@ const getCuotaByPessenger = async (req, res, next) => {
     const cuotas = await Fee.findAll({
       where: {
         contrato_cuyen: num,
-        numPass: num_pass
-      }
+        numPass: num_pass,
+      },
     });
+
     if (!cuotas || cuotas.length === 0) {
       return res.status(404).send({ mensaje: "Aun no hay cuotas para mostrar" });
-    } 
-    const cuotaVencida = cuotas.some(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento) < new Date());
-    const cuotaActual = cuotas.find(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento).getMonth() === new Date().getMonth());
-    const cuotaSiguiente = cuotas.find(cuota => cuota.pagada === "0" || cuota.pagada === "");
+    }
+
+    const hoy = new Date();
+    const cuotaVencida = cuotas.some(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento) < hoy);
+    const cuotaActual = cuotas.find(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento).getMonth() === hoy.getMonth());
+
     if (cuotaVencida) {
       return res.status(200).send([{ en_mora: true }]);
     }
+
     if (cuotaActual) {
       return res.status(200).send([cuotaActual]);
     }
-    if (!cuotaSiguiente) {
+
+    const siguienteCuota = cuotas.find(cuota => cuota.pagada === "0" || cuota.pagada === "");
+    if (!siguienteCuota) {
       return res.status(401).send({ mensaje: "Su plan está finalizado" });
-    } else {
-      const proxCuota = Array.isArray(cuotaSiguiente) ? cuotaSiguiente.sort((a, b) => b.numero - a.numero)[0] : cuotaSiguiente;
-      res.status(200).send([proxCuota]);
     }
+
+    res.status(200).send([siguienteCuota]);
   } catch (error) {
     console.log("Algo salió mal: ", error);
     res.status(500).send({ message: 'Error interno del servidor' });
