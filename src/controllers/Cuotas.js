@@ -58,9 +58,9 @@ const getCuotaByPessenger = async (req, res, next) => {
     if (!cuotas || cuotas.length === 0) {
       return res.status(404).send({ mensaje: "Aun no hay cuotas para mostrar" });
     } 
-    const cuotaVencida = cuotas.some(cuota => cuota.pendiente === '1' && new Date(cuota.vencimiento) < new Date());
-    const cuotaActual = cuotas.find(cuota => cuota.pendiente === '1' && new Date(cuota.vencimiento).getMonth() === new Date().getMonth());
-    const cuotaSiguiente = cuotas.find(cuota => cuota.pendiente === '1');
+    const cuotaVencida = cuotas.some(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento) < new Date());
+    const cuotaActual = cuotas.find(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento).getMonth() === new Date().getMonth());
+    const cuotaSiguiente = cuotas.find(cuota => cuota.pagada === "0" || cuota.pagada === "");
     if (cuotaVencida) {
       return res.status(200).send([{ en_mora: true }]);
     }
