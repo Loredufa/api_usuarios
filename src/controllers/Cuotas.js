@@ -72,10 +72,8 @@ const getCuotaByPessenger = async (req, res, next) => {
       return res.status(200).send([cuotaActual]);
     }
 
-    const siguienteCuota = cuotas.find(cuota => cuota.pagada === "0" || cuota.pagada === "");
-    if (!siguienteCuota) {
-      return res.status(401).send({ mensaje: "Su plan está finalizado" });
-    }
+    const siguienteCuota = cuotas.filter(cuota => cuota.pagada === "0" || cuota.pagada === "")
+    .sort((a, b) => new Date(a.vencimiento) - new Date(b.vencimiento))[0];
 
     res.status(200).send([siguienteCuota]);
   } catch (error) {
