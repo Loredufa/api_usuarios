@@ -59,6 +59,14 @@ module.exports = function(sequelize) {
         type:DataTypes.STRING,
         allowNull:true
     },
+    valor_dolares : {
+        type:DataTypes.STRING,
+        allowNull:true
+    },
+    cuo_sin_int: {
+        type:DataTypes.STRING,
+        allowNull:true
+    },
     canc: {
         type:DataTypes.STRING,
         allowNull:true

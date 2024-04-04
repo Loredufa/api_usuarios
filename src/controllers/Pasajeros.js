@@ -96,6 +96,7 @@ const addPasajero = async (req, res) => {
         contratos: contratosString,
         fechaNac: pasajero.fechaNac,
         importe: pasajero.importe,
+        forma_de_pago: pasajero.forma_de_pago,
         cuotas: pasajero.cuotas,
         numPas: numPas,
       });
@@ -113,6 +114,9 @@ const addPasajero = async (req, res) => {
       await specifiedLogin.addPassenger(newPasajero)
       // Obtener el ID del pasajero recién creado
       const pasajeroId = newPasajero.id;
+
+      //Enviar el pasajero completo a redis.
+
 
       // Construye la key para la lista en Redis
       const redisKey = 'pasajeros';
@@ -173,6 +177,8 @@ const addPasajero = async (req, res) => {
     }
      // Obtener el ID del pasajero recién creado
      const pasajeroId = newPasajero.id;
+
+     //Enviar el pasajero a Redis.
 
      // Construir la key para la lista en Redis
      const redisKey = 'pasajeros';
@@ -251,9 +257,6 @@ const verifyPessegerToApp = async (req, res) => {
     const nombreMes = infoContract.mes.trim();
     const año = infoContract.año.trim();
     const monto = infoContract.impTot.trim();
-   
-    console.log('SOY NOMBRE MES', nombreMes)
-    console.log('SOY EL AÑO', año)
 
     // Función para mapear el nombre del mes a su número correspondiente
     const obtenerNumeroDeMes = (nombreMes) => {
@@ -264,26 +267,26 @@ const verifyPessegerToApp = async (req, res) => {
     };
     // Obtener el número del mes
     const numeroMes = obtenerNumeroDeMes(nombreMes);
-    console.log('Número del mes:', numeroMes);
 
     // Construir la fecha
     const fechaLimite = addMonths(new Date(año, numeroMes, 1), -1);
   
-    console.log('Fecha construida:', fechaLimite);
-    console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
+    //console.log('Fecha construida:', fechaLimite);
+    //console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
     // Calcula la diferencia en meses entre la fecha límite y hoy
     const mesesRestantes = differenceInMonths(fechaLimite, new Date());
-    console.log('SOY LOS MESES RESTANTES', mesesRestantes)
+    //console.log('SOY LOS MESES RESTANTES', mesesRestantes)
     // Frecuencia de las cuotas disponibles
     const frecuenciaCuotas = [1, 3, 6, 9, 12, 18];
     // Filtra las cuotas que el usuario puede elegir
     let cuotasDisponibles = frecuenciaCuotas.filter(cuota => cuota <= mesesRestantes);
-    console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
+    //console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
 
     // Si la diferencia en meses es menor a 3, permite la opción de 1 cuota
     if (mesesRestantes < 3 && !cuotasDisponibles.includes(1)) {
       cuotasDisponibles.push(1);
     }
+    const cuotas_s_int = cuotasDisponibles.filter(cuota => cuota <= parseInt(infoContract.cuo_sin_int));
 
     if (login && pessenger) {
       pasajero = {
@@ -291,7 +294,9 @@ const verifyPessegerToApp = async (req, res) => {
         apellido: login.apellido,
         dni: login.dni,
         fechaNac: pessenger.fechaNac,
-        cuotas: cuotasDisponibles,
+        cuotas_ipc: cuotasDisponibles,
+        cuotas_s_int: cuotas_s_int,
+        cuotas_dolares: infoContract.valor_dolares,
         email: login.email,
         login: true,
         monto: monto
@@ -302,6 +307,8 @@ const verifyPessegerToApp = async (req, res) => {
         apellido: login.apellido,
         dni: login.dni,
         cuotas: cuotasDisponibles,
+        cuotas_s_int: cuotas_s_int,
+        cuotas_dolares: infoContract.valor_dolares,
         email: login.email,
         login: true,
         monto: monto
@@ -313,6 +320,8 @@ const verifyPessegerToApp = async (req, res) => {
         dni: pessenger.dni,
         email: pessenger.correo,
         cuotas: cuotasDisponibles,
+        cuotas_s_int: cuotas_s_int,
+        cuotas_dolares: infoContract.valor_dolares,
         login: "",
         monto: monto
       };
@@ -321,7 +330,7 @@ const verifyPessegerToApp = async (req, res) => {
     if (Object.keys(pasajero).length > 0) {
       res.status(200).send(pasajero);
     } else {
-      res.status(400).send({ message: 'No existen datos', cuotas: cuotasDisponibles, login: "", monto: monto });
+      res.status(400).send({ message: 'No existen datos', cuotas: cuotasDisponibles, cuotas_s_int: cuotas_s_int, cuotas_dolares: infoContract.valor_dolares, login: "", monto: monto });
     }
   } catch (error) {
     console.log('Algo salió mal: ', error);
