@@ -286,7 +286,9 @@ const verifyPessegerToApp = async (req, res) => {
     if (mesesRestantes < 3 && !cuotasDisponibles.includes(1)) {
       cuotasDisponibles.push(1);
     }
-    const cuotas_s_int = cuotasDisponibles.filter(cuota => cuota <= parseInt(infoContract.cuo_sin_int));
+
+    const csi = infoContract.cuo_sin_int? infoContract.cuo_sin_int : 3
+    const cuotas_s_int = cuotasDisponibles.filter(cuota => cuota <= parseInt(csi));
 
     if (login && pessenger) {
       pasajero = {
