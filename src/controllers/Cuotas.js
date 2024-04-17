@@ -134,7 +134,8 @@ const getStatusCuota = async (req, res, next) => {
                 return acumulador;
             }, 0);
 
-            const cuotasVencidas = cuotas.filter(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento) < new Date());
+            const cuotasVencidas = cuotas.filter(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento) < new Date() && console.log('vencimiento cuota', cuota.vencimiento));
+            
             console.log('soy cuotas vencidas', cuotasVencidas)
             const cuotas_vencidas = cuotasVencidas.length;  
 
