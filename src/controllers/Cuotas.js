@@ -121,14 +121,14 @@ const getStatusCuota = async (req, res, next) => {
             res.status(404).send({ mensaje: "Aun no hay cuotas para mostrar" });
         } else {
             const cuotas_pagas = cuotas.reduce((acumulador, cuota) => {
-                if (cuota.pagada === "1") {
+                if (cuota.pagada === "1" || cuota.pagada === 1) {
                     return acumulador + 1;
                 }
                 return acumulador;
             }, 0);
 
             const cuotas_impagas = cuotas.reduce((acumulador, cuota) => {
-                if (cuota.pagada === "0" || cuota.pagada === "") {
+                if (cuota.pagada === "0" || cuota.pagada === "" || cuota.pagada === 0) {
                     return acumulador + 1;
                 }
                 return acumulador;
