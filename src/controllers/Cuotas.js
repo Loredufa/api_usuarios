@@ -117,7 +117,7 @@ const getStatusCuota = async (req, res, next) => {
                 numPass: num_pass
             }
         });
-        console.log('soy cuotas', cuotas)
+       
         if (!cuotas || cuotas.length === 0) {
             res.status(404).send({ mensaje: "Aun no hay cuotas para mostrar" });
         } else {
@@ -136,8 +136,6 @@ const getStatusCuota = async (req, res, next) => {
             }, 0);
 
             const cuotasVencidas = cuotas.filter(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento) < new Date());
-            
-            console.log('soy cuotas vencidas', cuotasVencidas)
             const cuotas_vencidas = cuotasVencidas.length;  
 
             const monto_pend_pago = cuotas.reduce((sumatoria, cuota) => {
