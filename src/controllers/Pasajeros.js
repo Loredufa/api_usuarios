@@ -228,6 +228,7 @@ const putPessenger = async (req, res) => {
         id,
       },
     })
+    console.log('UPDATE', updateData)
     updateData[0] !== 0? res.status(200).send({message:"Pasajero actualizado"}) : 
     res.status(400).send({message:"No se pudo actualizar el pasajero"})
   } catch (error) { res.status(500).send({ message: 'Error interno del servidor' });  
