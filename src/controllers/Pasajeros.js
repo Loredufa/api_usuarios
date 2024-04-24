@@ -377,6 +377,23 @@ const deletePasajero = async(req, res) => {
 }
 }
 
+//Obtener el pasajero por id
+const getPassengerById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const pass = await Passenger.findByPk(id);
+
+    if (!pass) {
+      res.status(401).send({ message: `No se pudo encontrar el pasajero` });
+    } else {
+        res.status(200).send(pass);
+    }
+  } catch (error) {
+    console.log("Algo salió mal: ", error);
+    res.status(500).send({ message: 'Error interno del servidor' });
+  }
+};
+
 
 module.exports = {
     getAllbyContract,
@@ -385,5 +402,6 @@ module.exports = {
     getAllPasajeros,
     verifyPessegerToApp,
     deletePasajero,
-    getRelationByIdLogin
+    getRelationByIdLogin,
+    getPassengerById
 }
