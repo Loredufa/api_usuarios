@@ -222,6 +222,7 @@ const putPessenger = async (req, res) => {
   try {
     const newData = req.body;
     const id = req.params.id;   
+    console.log('Data del pasajero', newData)
     const updateData = await Passenger.update(newData, {
       where: {
         id,
@@ -254,6 +255,7 @@ const verifyPessegerToApp = async (req, res) => {
         num,
       },
     });
+    //VERIFICAR QUE EL CONTRATO NO TENGA LA FECHA DEL VIAJE ANTERIOR A HOY
     const nombreMes = infoContract.mes.trim();
     const año = infoContract.año.trim();
     const monto = infoContract.impTot.trim();
@@ -277,18 +279,17 @@ const verifyPessegerToApp = async (req, res) => {
     const mesesRestantes = differenceInMonths(fechaLimite, new Date());
     //console.log('SOY LOS MESES RESTANTES', mesesRestantes)
     // Frecuencia de las cuotas disponibles
-    const frecuenciaCuotas = [1, 3, 6, 9, 12, 18];
+    const frecuenciaCuotas = [1, 3, 6, 9, 12, 18, 24];
     // Filtra las cuotas que el usuario puede elegir
-    let cuotasDisponibles = frecuenciaCuotas.filter(cuota => cuota <= mesesRestantes);
+    const cuotasDisponibles = frecuenciaCuotas.filter(cuota => cuota <= mesesRestantes);
     //console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
 
     // Si la diferencia en meses es menor a 3, permite la opción de 1 cuota
     if (mesesRestantes < 3 && !cuotasDisponibles.includes(1)) {
       cuotasDisponibles.push(1);
     }
-
-    const csi = infoContract.cuo_sin_int? infoContract.cuo_sin_int : 3
-    const cuotas_s_int = cuotasDisponibles.filter(cuota => cuota <= parseInt(csi));
+    const cuotas_s_int = parseInt(infoContract.cuo_sin_int, 10);
+    const valor_cuo_sin_int= monto/cuotas_s_int
 
     if (login && pessenger) {
       pasajero = {
@@ -296,9 +297,13 @@ const verifyPessegerToApp = async (req, res) => {
         apellido: login.apellido,
         dni: login.dni,
         fechaNac: pessenger.fechaNac,
-        cuotas_ipc: cuotasDisponibles,
+        cuotas: cuotasDisponibles,
+        cuotas_ipc: infoContract.cuo_fija_ipc,
+        saldo_ipc: infoContract.saldo_ipc,
         cuotas_s_int: cuotas_s_int,
-        cuotas_dolares: infoContract.valor_dolares,
+        valor_cuo_sin_int: valor_cuo_sin_int,
+        valor_dolares: infoContract.valor_dolares,
+        valor_contado: infoContract.valor_contado,
         email: login.email,
         login: true,
         monto: monto
@@ -309,8 +314,11 @@ const verifyPessegerToApp = async (req, res) => {
         apellido: login.apellido,
         dni: login.dni,
         cuotas: cuotasDisponibles,
+        saldo_ipc: infoContract.saldo_ipc,
         cuotas_s_int: cuotas_s_int,
-        cuotas_dolares: infoContract.valor_dolares,
+        valor_cuo_sin_int: valor_cuo_sin_int,
+        valor_dolares: infoContract.valor_dolares,
+        valor_contado: infoContract.valor_contado,
         email: login.email,
         login: true,
         monto: monto
@@ -322,8 +330,11 @@ const verifyPessegerToApp = async (req, res) => {
         dni: pessenger.dni,
         email: pessenger.correo,
         cuotas: cuotasDisponibles,
+        saldo_ipc: infoContract.saldo_ipc,
         cuotas_s_int: cuotas_s_int,
-        cuotas_dolares: infoContract.valor_dolares,
+        valor_cuo_sin_int: valor_cuo_sin_int,
+        valor_dolares: infoContract.valor_dolares,
+        valor_contado: infoContract.valor_contado,
         login: "",
         monto: monto
       };
@@ -332,7 +343,14 @@ const verifyPessegerToApp = async (req, res) => {
     if (Object.keys(pasajero).length > 0) {
       res.status(200).send(pasajero);
     } else {
-      res.status(400).send({ message: 'No existen datos', cuotas: cuotasDisponibles, cuotas_s_int: cuotas_s_int, cuotas_dolares: infoContract.valor_dolares, login: "", monto: monto });
+      res.status(400).send({ message: 'No existen datos', 
+        cuotas: cuotasDisponibles,
+        saldo_ipc: infoContract.saldo_ipc,
+        cuotas_s_int: cuotas_s_int,
+        valor_cuo_sin_int: valor_cuo_sin_int,
+        valor_dolares: infoContract.valor_dolares,
+        valor_contado: infoContract.valor_contado,
+        monto: monto });
     }
   } catch (error) {
     console.log('Algo salió mal: ', error);
