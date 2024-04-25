@@ -63,22 +63,22 @@ module.exports = function (sequelize) {
             type: DataTypes.STRING,
             allowNull: true
         },
-        // valor_contado: {
-        //     type: DataTypes.STRING,
-        //     allowNull: true
-        // },
+         valor_contado: {
+             type: DataTypes.STRING,
+             allowNull: true
+         },
         cuo_sin_int: {
              type: DataTypes.STRING,
              allowNull: true
         }, 
-        // cuo_fija_ipc: {
-        //     type: DataTypes.STRING,
-        //     allowNull: true
-        // },
-        // saldo_ipc: {
-        //     type: DataTypes.STRING,
-        //     allowNull: true
-        // },
+         cuo_fija_ipc: {
+             type: DataTypes.STRING,
+             allowNull: true
+         },
+         saldo_ipc: {
+             type: DataTypes.STRING,
+             allowNull: true
+         },
         canc: {
             type: DataTypes.STRING,
             allowNull: true
