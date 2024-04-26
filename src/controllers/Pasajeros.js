@@ -292,6 +292,9 @@ const verifyPessegerToApp = async (req, res) => {
     const cuotas_s_int = parseInt(infoContract.cuo_sin_int, 10);
     const valor_cuo_sin_int= monto/cuotas_s_int
 
+    const saldo_fijo = monto - infoContract.saldo_ipc
+    const valor_cuota_fija = saldo_fijo / 3
+
     if (login && pessenger) {
       pasajero = {
         nombre: login.nombre,
@@ -301,6 +304,8 @@ const verifyPessegerToApp = async (req, res) => {
         cuotas: cuotasDisponibles,
         cuotas_ipc: infoContract.cuo_fija_ipc,
         saldo_ipc: infoContract.saldo_ipc,
+        saldo_cuo_fija: saldo_fijo,
+        valor_cuo_fija: valor_cuota_fija,
         cuotas_s_int: cuotas_s_int,
         valor_cuo_sin_int: valor_cuo_sin_int,
         valor_dolares: infoContract.valor_dolares,
@@ -316,6 +321,8 @@ const verifyPessegerToApp = async (req, res) => {
         dni: login.dni,
         cuotas: cuotasDisponibles,
         saldo_ipc: infoContract.saldo_ipc,
+        saldo_cuo_fija: saldo_fijo,
+        valor_cuo_fija: valor_cuota_fija,
         cuotas_s_int: cuotas_s_int,
         valor_cuo_sin_int: valor_cuo_sin_int,
         valor_dolares: infoContract.valor_dolares,
@@ -332,6 +339,8 @@ const verifyPessegerToApp = async (req, res) => {
         email: pessenger.correo,
         cuotas: cuotasDisponibles,
         saldo_ipc: infoContract.saldo_ipc,
+        saldo_cuo_fija: saldo_fijo,
+        valor_cuo_fija: valor_cuota_fija,
         cuotas_s_int: cuotas_s_int,
         valor_cuo_sin_int: valor_cuo_sin_int,
         valor_dolares: infoContract.valor_dolares,
@@ -347,6 +356,8 @@ const verifyPessegerToApp = async (req, res) => {
       res.status(400).send({ message: 'No existen datos', 
         cuotas: cuotasDisponibles,
         saldo_ipc: infoContract.saldo_ipc,
+        saldo_cuo_fija: saldo_fijo,
+        valor_cuo_fija: valor_cuota_fija,
         cuotas_s_int: cuotas_s_int,
         valor_cuo_sin_int: valor_cuo_sin_int,
         valor_dolares: infoContract.valor_dolares,
