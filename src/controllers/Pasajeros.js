@@ -177,6 +177,11 @@ const addPasajero = async (req, res) => {
     }
      // Obtener el ID del pasajero recién creado
      const pasajeroId = newPasajero.id;
+     const pasajeroRedis = {
+      ...newPasajero,
+      valor_cuo_fija: pasajero.valor_cuo_fija
+     }
+     console.log('PASAJERO REDIS', pasajeroRedis)
 
      //Enviar el pasajero a Redis.
 
@@ -188,7 +193,7 @@ const addPasajero = async (req, res) => {
  
      // Puedes almacenar más detalles del pasajero usando otra clave única, por ejemplo:
      const detallesPasajeroKey = `pasajero:${pasajeroId}`;
-     const infoPasajero = await redisClient.set(detallesPasajeroKey, JSON.stringify(newPasajero));
+     const infoPasajero = await redisClient.set(detallesPasajeroKey, JSON.stringify(pasajeroRedis));
  
       console.log('SOY INFO PASAJEROS', infoPasajero)
 
@@ -291,9 +296,10 @@ const verifyPessegerToApp = async (req, res) => {
     }
     const cuotas_s_int = parseInt(infoContract.cuo_sin_int, 10);
     const valor_cuo_sin_int= monto/cuotas_s_int
+    const cant_cuo_posible_ipc = cuotasDisponibles.map(cuota => cuota - 3).filter(cuota => cuota > 0);
 
     const saldo_fijo = monto - infoContract.saldo_ipc
-    const valor_cuota_fija = saldo_fijo / 3
+    const valor_cuota_fija = infoContract.cuo_fija_ipc
 
     if (login && pessenger) {
       pasajero = {
@@ -304,6 +310,7 @@ const verifyPessegerToApp = async (req, res) => {
         cuotas: cuotasDisponibles,
         cuotas_ipc: infoContract.cuo_fija_ipc,
         saldo_ipc: infoContract.saldo_ipc,
+        cuo_disp_ipc: cant_cuo_posible_ipc,
         saldo_cuo_fija: saldo_fijo,
         valor_cuo_fija: valor_cuota_fija,
         cuotas_s_int: cuotas_s_int,
@@ -321,6 +328,7 @@ const verifyPessegerToApp = async (req, res) => {
         dni: login.dni,
         cuotas: cuotasDisponibles,
         saldo_ipc: infoContract.saldo_ipc,
+        cuo_disp_ipc: cant_cuo_posible_ipc,
         saldo_cuo_fija: saldo_fijo,
         valor_cuo_fija: valor_cuota_fija,
         cuotas_s_int: cuotas_s_int,
@@ -339,6 +347,7 @@ const verifyPessegerToApp = async (req, res) => {
         email: pessenger.correo,
         cuotas: cuotasDisponibles,
         saldo_ipc: infoContract.saldo_ipc,
+        cuo_disp_ipc: cant_cuo_posible_ipc,
         saldo_cuo_fija: saldo_fijo,
         valor_cuo_fija: valor_cuota_fija,
         cuotas_s_int: cuotas_s_int,
@@ -356,6 +365,7 @@ const verifyPessegerToApp = async (req, res) => {
       res.status(400).send({ message: 'No existen datos', 
         cuotas: cuotasDisponibles,
         saldo_ipc: infoContract.saldo_ipc,
+        cuo_disp_ipc: cant_cuo_posible_ipc,
         saldo_cuo_fija: saldo_fijo,
         valor_cuo_fija: valor_cuota_fija,
         cuotas_s_int: cuotas_s_int,
