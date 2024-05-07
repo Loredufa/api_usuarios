@@ -178,9 +178,9 @@ const addPasajero = async (req, res) => {
      // Obtener el ID del pasajero recién creado
      const pasajeroId = newPasajero.id;
      const pasajeroRedis = {
-      ...newPasajero,
-      valor_cuo_fija: pasajero.valor_cuo_fija
-     }
+      ...newPasajero.dataValues, // Copia todas las propiedades de newPasajero
+      valor_cuo_fija: pasajero.valor_cuo_fija // Agrega valor_cuo_fija a pasajeroRedis
+    };
      console.log('PASAJERO REDIS', pasajeroRedis)
 
      //Enviar el pasajero a Redis.
@@ -202,7 +202,7 @@ const addPasajero = async (req, res) => {
         return;
       }
 
-    res.status(200).send(newPasajero);
+    res.status(200).send(pasajeroRedis);
   } catch (error) {
     console.log("Algo salió mal: ", error);
     res.status(500).send({ message: "Error interno del servidor" });
