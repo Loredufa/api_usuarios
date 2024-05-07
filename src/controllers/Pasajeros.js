@@ -280,10 +280,10 @@ const verifyPessegerToApp = async (req, res) => {
     const fechaLimite = addMonths(new Date(año, numeroMes, 1), -1);
   
     //console.log('Fecha construida:', fechaLimite);
-    //console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
+    console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
     // Calcula la diferencia en meses entre la fecha límite y hoy
     const mesesRestantes = differenceInMonths(fechaLimite, new Date());
-    //console.log('SOY LOS MESES RESTANTES', mesesRestantes)
+    console.log('SOY LOS MESES RESTANTES', mesesRestantes)
     // Frecuencia de las cuotas disponibles
     const frecuenciaCuotas = [1, 3, 6, 9, 12, 18, 24];
     // Filtra las cuotas que el usuario puede elegir
@@ -296,7 +296,7 @@ const verifyPessegerToApp = async (req, res) => {
     }
     const cuotas_s_int = parseInt(infoContract.cuo_sin_int, 10);
     const valor_cuo_sin_int= monto/cuotas_s_int
-    const cant_cuo_posible_ipc = cuotasDisponibles.map(cuota => cuota - 3).filter(cuota => cuota > 0);
+    const cant_cuo_posible_ipc = mesesRestantes - 3;
 
     const saldo_fijo = monto - infoContract.saldo_ipc
     const valor_cuota_fija = infoContract.cuo_fija_ipc
