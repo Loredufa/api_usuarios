@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/', getAllPasajeros)
 router.get('/:num', getAllbyContract)
-router.get('/verify/:dni/:num', verifyPessegerToApp)
+router.get('/verify/:dni/:num/:id', verifyPessegerToApp)
 router.get('/relation/:loginId', getRelationByIdLogin)
 router.get('/byid/:id', getPassengerById)
 

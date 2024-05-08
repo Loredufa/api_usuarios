@@ -61,15 +61,8 @@ const addPasajero = async (req, res) => {
   try {
     const pasajero = req.body;
     const login = req.body.login;
-
     let newPasajero;
-    const verifyPasajero = await Passenger.findOne({
-      where: { dni: pasajero.dni, contratos: pasajero.contrato },
-    });
-
-    if (verifyPasajero) {
-      res.status(403).send({ message: "El pasajero ya existe para ese contrato" });
-    } else if (login) {
+   if (login) {
       const actLogin = await Login.findOne({ where: { usuario: pasajero.dni } });
 
       if (!actLogin) {
@@ -132,7 +125,7 @@ const addPasajero = async (req, res) => {
       res.status(408).send({ message: "No se pudieron enviar los datos a Redis" });
       return;
     }
-
+///
     } else {
       // Crear un nuevo login y asociar el pasajero
       const newLogin = await Login.create({
@@ -221,29 +214,50 @@ const calcularNumPasajero = async (contrato) => {
    return numPasajero;
  };
 
-
-//Modificar datos del pasajero
-const putPessenger = async (req, res) => {
+ const putPessenger = async (req, res) => {
   try {
     const newData = req.body;
-    const id = req.params.id;   
-    console.log('Data del pasajero', newData)
+    const id = req.params.id;  
+    const Passenger_Login = sequelize.model('Passenger_Login');
+    // Verificar si la relación existe
+    const passengerLoginRelation = await Passenger_Login.findOne({
+      where: {
+        passengerId: id,
+        loginId: newData.loginId, 
+      }, 
+    });
+    if (!passengerLoginRelation) {
+      // Si la relación no existe, crearla primero
+      await Passenger_Login.create({
+        passengerId: id,
+        loginId: newData.loginId,
+      });
+    }
+    // Actualizar los datos del pasajero
     const updateData = await Passenger.update(newData, {
       where: {
         id,
       },
-    })
-    console.log('UPDATE', updateData)
-    updateData[0] !== 0? res.status(200).send({message:"Pasajero actualizado"}) : 
-    res.status(400).send({message:"No se pudo actualizar el pasajero"})
-  } catch (error) { res.status(500).send({ message: 'Error interno del servidor' });  
-}}
+    });
+    // Verificar si se pudo actualizar el pasajero
+    if (updateData[0] !== 0) {
+      res.status(200).send({ message: "Pasajero actualizado" });
+    } else {
+      res.status(400).send({ message: "No se pudo actualizar el pasajero" });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send({ message: 'Error interno del servidor' });
+  }
+};
 
 //Verifica si existe el usuario o el pasajero y retorna la informacion para autocompletado de la app
 const verifyPessegerToApp = async (req, res) => {
   try {
+    console.log('SOY PARAMS', req.params)
     const dni = req.params.dni;
     const num = req.params.num;
+    const id = req.params.id;
     let pasajero = {};
 
     const login = await Login.findOne({
@@ -260,8 +274,30 @@ const verifyPessegerToApp = async (req, res) => {
       where: {
         num,
       },
+    });  
+    const verifyPasajero = await Passenger.findOne({
+      where: {
+         dni: dni, 
+         contratos: num },
     });
-    //VERIFICAR QUE EL CONTRATO NO TENGA LA FECHA DEL VIAJE ANTERIOR A HOY
+    if (verifyPasajero) {     
+      // Acceder a la tabla intermedia Passenger_Login
+    const Passenger_Login = sequelize.model('Passenger_Login');
+    //VERIFICAR QUE EL PASAJERO NO TENGA ASOCIADO EL MISMO PADRE(login) DEL REQ
+    // Buscar la relación Passenger_Login
+    const passengerLoginRelation = await Passenger_Login.findOne({
+      where: {
+        passengerId: verifyPasajero.id,
+        loginId: id, 
+      }, 
+    });
+    //SI - 201 YA ESTA ASOCIADO EL PASAJETO A ESE USUARIO
+    if (passengerLoginRelation) {
+      return res.status(201).json({ message: 'La relación con el pasajero ya existe, verifique su lista de pasajeros' });
+    } else {
+      return res.status(202).json(pessenger);
+    }}
+    console.log('INFOCONTRACT', infoContract)
     const nombreMes = infoContract.mes.trim();
     const año = infoContract.año.trim();
     const monto = infoContract.impTot.trim();
@@ -296,12 +332,12 @@ const verifyPessegerToApp = async (req, res) => {
     }
     const cuotas_s_int = parseInt(infoContract.cuo_sin_int, 10);
     const valor_cuo_sin_int= monto/cuotas_s_int
-    const cant_cuo_posible_ipc = mesesRestantes - 3;
+    const cant_cuo_posible_ipc = mesesRestantes;
 
     const saldo_fijo = monto - infoContract.saldo_ipc
     const valor_cuota_fija = infoContract.cuo_fija_ipc
 
-    if (login && pessenger) {
+    if(login && pessenger) {
       pasajero = {
         nombre: login.nombre,
         apellido: login.apellido,
