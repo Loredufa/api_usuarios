@@ -297,7 +297,6 @@ const verifyPessegerToApp = async (req, res) => {
     } else {
       return res.status(202).json(pessenger);
     }}
-    console.log('INFOCONTRACT', infoContract)
     const nombreMes = infoContract.mes.trim();
     const año = infoContract.año.trim();
     const monto = infoContract.impTot.trim();
