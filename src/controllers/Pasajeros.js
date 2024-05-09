@@ -407,6 +407,7 @@ const verifyPessegerToApp = async (req, res) => {
         valor_cuo_sin_int: valor_cuo_sin_int,
         valor_dolares: infoContract.valor_dolares,
         valor_contado: infoContract.valor_contado,
+        login: "",
         monto: monto });
     }
   } catch (error) {
