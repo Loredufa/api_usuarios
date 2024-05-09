@@ -133,7 +133,7 @@ const addPasajero = async (req, res) => {
         apellido: pasajero.apellido,
         password: pasajero.dni,
         usuario: pasajero.dni,
-        email: pasajero.email,
+        email: "pepe@gmail.com",
         rol: "Pasajero",
         contrato: pasajero.contrato,
         estado: true,
