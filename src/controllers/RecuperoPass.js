@@ -41,20 +41,24 @@ const getUserByUsername = async (req, res) => {
   try {
     //recibe usuario por body
     const user = req.body.usuario
+    console.log('USER', user)
     //Busco al usuario
     const usuario = await Login.findOne({
       where: {
         usuario: user
       }
     })
+    console.log('USUARIO', usuario)
     if(!usuario) {res.status(400).json({ message: 'El usuario no existe' })} 
     else if (usuario.estado === 'true') {
+        console.log('USUARIO.ESTADO', usuario.estado)
         //genero token
         const token = jwt.sign({id: usuario.id, userName: usuario.usuario}, config.secretKey,{expiresIn: 84600}) 
         //extraigo id del usuario     
         const idUsuario = usuario.id
         //llamo a la funcion que envía el mail
         const mailSend = await conectionMail(req, res, usuario, token, idUsuario) 
+        console.log('MAILSEND', mailSend)
         mailSend? res.status(200).send({token, idUsuario}): res.status(401).json({ message: 'No se pudo enviar el correo' })
         
      } else {res.status(402).json({ message: 'El usuario está desactivado' })}
