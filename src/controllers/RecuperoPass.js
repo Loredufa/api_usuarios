@@ -39,6 +39,7 @@ const conectionMail = async (req, res, usuario, token, idUsuario) => {
 //Funcion padre para el reseteo de contraseña 
 const getUserByUsername = async (req, res) => {
   try {
+    console.log('ENTRO A LA FUNCION')
     //recibe usuario por body
     const user = req.body.usuario
     console.log('USER', user)
