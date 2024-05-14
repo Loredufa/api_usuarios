@@ -320,7 +320,7 @@ const verifyPessegerToApp = async (req, res) => {
     const mesesRestantes = differenceInMonths(fechaLimite, new Date());
     console.log('SOY LOS MESES RESTANTES', mesesRestantes)
     // Frecuencia de las cuotas disponibles
-    const frecuenciaCuotas = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+    const frecuenciaCuotas = [1, 3, 6, 9, 12];
     // Filtra las cuotas que el usuario puede elegir
     const cuotasDisponibles = frecuenciaCuotas.filter(cuota => cuota <= mesesRestantes);
     //console.log('Fecha límite de pago:', format(fechaLimite, 'MMMM yyyy'));
