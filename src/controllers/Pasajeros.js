@@ -205,14 +205,15 @@ const addPasajero = async (req, res) => {
 // Función para calcular el número de pasajero
 
 const calcularNumPasajero = async (contrato) => {
-  // Encuentra la cantidad de pasajeros para el contrato dado
-  const cantidadPasajeros = await Passenger.count({
-    where: { contratos: contrato, numPas: { [Sequelize.Op.not]: null } },
+  // Encuentra el número máximo de pasajero para el contrato dado
+  const maxNumPasajero = await Passenger.max('numPas', {
+    where: { contratos: contrato }
   });
-   // El número de pasajero será la cantidad actual + 1
-   const numPasajero = cantidadPasajeros + 1;
-   return numPasajero;
- };
+
+  // Si no hay pasajeros, el número máximo será null, por lo que empezamos con 0
+  const numPasajero = (maxNumPasajero !== null ? maxNumPasajero : 0) + 1;
+  return numPasajero;
+};
 
  const putPessenger = async (req, res) => {
   try {
