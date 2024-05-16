@@ -203,15 +203,21 @@ const addPasajero = async (req, res) => {
 };
 
 // Función para calcular el número de pasajero
-
 const calcularNumPasajero = async (contrato) => {
-  // Encuentra el número máximo de pasajero para el contrato dado
-  const maxNumPasajero = await Passenger.max('numPas', {
+  // Encuentra todos los valores de numPas como strings para el contrato dado
+  const numPasajeros = await Passenger.findAll({
+    attributes: ['numPas'],
     where: { contratos: contrato }
   });
 
-  // Si no hay pasajeros, el número máximo será null, por lo que empezamos con 0
-  const numPasajero = (maxNumPasajero !== null ? maxNumPasajero : 0) + 1;
+  // Convierte los valores a números y encuentra el máximo
+  const maxNumPasajero = numPasajeros
+    .map(pasajero => parseInt(pasajero.numPas, 10))
+    .filter(num => !isNaN(num))
+    .reduce((max, num) => (num > max ? num : max), 0);
+
+  // El número de pasajero será el máximo + 1
+  const numPasajero = maxNumPasajero + 1;
   return numPasajero;
 };
 
