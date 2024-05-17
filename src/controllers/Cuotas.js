@@ -62,20 +62,18 @@ const getCuotaByPessenger = async (req, res, next) => {
 
     const hoy = new Date();
     const cuotaVencida = cuotas.some(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento) < hoy);
-    const cuotaActual = cuotas.find(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento).getMonth() === hoy.getMonth());
+    //const cuotaActual = cuotas.find(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento).getMonth() === hoy.getMonth());
 
     if (cuotaVencida) {
       return res.status(200).send([{ en_mora: true }]);
-    }
+    } else {
+      return res.status(200).send(cuotas);}
+      
+    //const siguienteCuota = cuotas.filter(cuota => cuota.pagada === "0" || cuota.pagada === "")
+    //.sort((a, b) => new Date(a.vencimiento) - new Date(b.vencimiento))[0];
 
-    if (cuotaActual) {
-      return res.status(200).send([cuotaActual]);
-    }
+    //res.status(200).send([siguienteCuota]);
 
-    const siguienteCuota = cuotas.filter(cuota => cuota.pagada === "0" || cuota.pagada === "")
-    .sort((a, b) => new Date(a.vencimiento) - new Date(b.vencimiento))[0];
-
-    res.status(200).send([siguienteCuota]);
   } catch (error) {
     console.log("Algo salió mal: ", error);
     res.status(500).send({ message: 'Error interno del servidor' });
