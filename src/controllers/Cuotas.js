@@ -60,25 +60,25 @@ const getCuotaByPessenger = async (req, res, next) => {
       return res.status(404).send({ mensaje: "Aun no hay cuotas para mostrar" });
     }
 
+    // Ordenar las cuotas por la propiedad numCuota (que es un string)
+    cuotas.sort((a, b) => parseInt(a.numCuota, 10) - parseInt(b.numCuota, 10));
+
     const hoy = new Date();
-    const cuotaVencida = cuotas.some(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento) < hoy);
-    //const cuotaActual = cuotas.find(cuota => cuota.pagada === "0" || cuota.pagada === "" && new Date(cuota.vencimiento).getMonth() === hoy.getMonth());
+    const cuotaVencida = cuotas.some(cuota => 
+      (cuota.pagada === "0" || cuota.pagada === "") && new Date(cuota.vencimiento) < hoy
+    );
 
     if (cuotaVencida) {
       return res.status(200).send([{ en_mora: true }]);
     } else {
-      return res.status(200).send(cuotas);}
-      
-    //const siguienteCuota = cuotas.filter(cuota => cuota.pagada === "0" || cuota.pagada === "")
-    //.sort((a, b) => new Date(a.vencimiento) - new Date(b.vencimiento))[0];
-
-    //res.status(200).send([siguienteCuota]);
-
+      return res.status(200).send(cuotas);
+    }
   } catch (error) {
     console.log("Algo salió mal: ", error);
     res.status(500).send({ message: 'Error interno del servidor' });
   }
 };
+
 
 //Obtener todas las cuotas de un pasajero 
 const getCuotaByTest = async (req, res, next) => {
