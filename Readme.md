@@ -171,8 +171,8 @@ GET http://localhost:4002/financiacion
 Crear una finaciación
 POST: http://localhost:4002/financiacion
 {
-  "nombre": "6 cuotas 2024",
-  "texto_gral": "[{medio_de_pago: contado, cuotas:*,importe: 430000, dispobible: true}, {medio_de_pago: dolares, cuotas:*,importe: 430, dispobible: true}, {medio_de_pago: 3_cuotas, cuotas: 3,importe: 500000, dispobible: true}, {medio_de_pago: 6_cuotas, cuotas:6,importe: 530000, dispobible: true}]",
+  "nombre": "todas cuotas 2024",
+  "texto_gral": [{"medio_de_pago": "contado", "cuotas":"*","importe": 430000, "disponible": true}, {"medio_de_pago": "dolares", "cuotas":"*","importe": 430, "disponible": true}, {"medio_de_pago": "3_cuotas", "cuotas": 3,"importe": 500000, "disponible": true}, {"medio_de_pago": "6_cuotas", "cuotas":6 ,"importe": 530000, "dispobible": true}, {"medio_de_pago": "9_cuotas", "cuotas":9 ,"importe": 560000, "disponible": false}],
   "activo": "true"
 }
 
@@ -196,6 +196,13 @@ Modificar la financiacion
 PUT: http://localhost:4002/financiacion/:id
 {
     "activo": false
+}
+
+
+Relacionar una financiacion con un contrato 
+PUT:http://localhost:4002/financiacion/relaction/:num
+{
+  "financingId": 1
 }
 
 Variable de entorno para el archivo .env
