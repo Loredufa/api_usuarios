@@ -162,6 +162,41 @@ POST: http://localhost:4002/colegios/verify
   "colegio": "NUESTRA SEÑORA DEL HUERTO"
 }
 
+**Financiación**
+
+Obtener todas las financiaciones disponibles
+GET http://localhost:4002/financiacion
+
+
+Crear una finaciación
+POST: http://localhost:4002/financiacion
+{
+  "nombre": "6 cuotas 2024",
+  "texto_gral": "[{medio_de_pago: contado, cuotas:*,importe: 430000, dispobible: true}, {medio_de_pago: dolares, cuotas:*,importe: 430, dispobible: true}, {medio_de_pago: 3_cuotas, cuotas: 3,importe: 500000, dispobible: true}, {medio_de_pago: 6_cuotas, cuotas:6,importe: 530000, dispobible: true}]",
+  "activo": "true"
+}
+
+
+Para agregarle la financiacion al contrato
+PUT http://localhost:4002/financiacion/relaction/:num
+{
+    "financingId": "1" //id de la finaciacion para ese contrato
+}
+
+
+Obtener la financiacion por numero de contrato
+GET: http://localhost:4002/financiacion/contract/:num
+
+
+Obtener la finaciacion por id de financiacion
+GET: http://localhost:4002/financiacion/:id
+
+
+Modificar la financiacion
+PUT: http://localhost:4002/financiacion/:id
+{
+    "activo": false
+}
 
 Variable de entorno para el archivo .env
 

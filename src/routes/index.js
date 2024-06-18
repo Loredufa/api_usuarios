@@ -8,6 +8,7 @@ const resetRouteApp = require('./resetApp');
 const passengerRoute = require('./getPasajeros');
 const CuotasRoute = require('./getCuotas');
 const ColegiosRoute = require('./getColegios');
+const FinanciacionRoute = require('./getFinanciacion');
 
 
 router.use('/usuarios', viajeRoute)
@@ -16,6 +17,7 @@ router.use('/resetapp', verifyToken, resetRouteApp)
 router.use('/pasajero', verifyToken, passengerRoute)
 router.use('/cuotas', verifyToken, CuotasRoute)
 router.use('/colegios', verifyToken, ColegiosRoute)
+router.use('/financiacion', verifyToken, FinanciacionRoute)
 
 
 module.exports = router;

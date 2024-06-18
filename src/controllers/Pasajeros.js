@@ -1,5 +1,5 @@
 process.env.TZ = 'UTC';
-const { Sequelize, sequelize, Passenger, Contract, Login} = require('../models/index')
+const { Sequelize, sequelize, Passenger, Contract, Login, Financing} = require('../models/index')
 const { addMonths, differenceInMonths, format } = require('date-fns');
 const { conectionMail } = require('./RecupPassApp');
 //const { addRedis } = require('./addRedis');
@@ -287,6 +287,19 @@ const verifyPessegerToApp = async (req, res) => {
          dni: dni, 
          contratos: num },
     });
+
+    const idFinancing = infoContract.financingId
+    const financ = await Financing.findOne({
+      where: {
+         id: idFinancing},
+    });
+
+    const finan = financ.texto_gral
+    const financing = Object.values(finan)
+    console.log('FINANCING', financing)
+    console.log('Tipo de texto_gral:', typeof financing);
+    
+    
     if (verifyPasajero) {     
       // Acceder a la tabla intermedia Passenger_Login
     const Passenger_Login = sequelize.model('Passenger_Login');
@@ -336,12 +349,23 @@ const verifyPessegerToApp = async (req, res) => {
     if (mesesRestantes < 3 && !cuotasDisponibles.includes(1)) {
       cuotasDisponibles.push(1);
     }
-    const cuotas_s_int = parseInt(infoContract.cuo_sin_int, 10);
-    const valor_cuo_sin_int= monto/cuotas_s_int
-    const cant_cuo_posible_ipc = mesesRestantes;
 
-    const saldo_fijo = monto - infoContract.saldo_ipc
-    const valor_cuota_fija = infoContract.cuo_fija_ipc
+    // Filtra los elementos que tienen disponible: true
+    const filteredFinancing = financing.filter(item => item.disponible === true);
+    console.log('FILTRO', filteredFinancing)
+    const newFinancing = filteredFinancing.map((e) => {
+      if (e.cuotas === '*') {
+        e.cuotas = cuotasDisponibles; // Aquí asignas cuotasDisponibles si cuotas es '*'
+      }
+      return e; 
+    });
+    console.log('MAP', newFinancing);
+
+    //const cuotas_s_int = parseInt(infoContract.cuo_sin_int, 10);
+    //const valor_cuo_sin_int= monto/cuotas_s_int
+    //const cant_cuo_posible_ipc = mesesRestantes;
+    //const saldo_fijo = monto - infoContract.saldo_ipc
+    //const valor_cuota_fija = infoContract.cuo_fija_ipc
 
     if(login && pessenger) {
       pasajero = {
@@ -349,37 +373,41 @@ const verifyPessegerToApp = async (req, res) => {
         apellido: login.apellido,
         dni: login.dni,
         fechaNac: pessenger.fechaNac,
-        cuotas: cuotasDisponibles,
-        cuotas_ipc: infoContract.cuo_fija_ipc,
-        saldo_ipc: infoContract.saldo_ipc,
-        cuo_disp_ipc: cant_cuo_posible_ipc,
-        saldo_cuo_fija: saldo_fijo,
-        valor_cuo_fija: valor_cuota_fija,
-        cuotas_s_int: cuotas_s_int,
-        valor_cuo_sin_int: valor_cuo_sin_int,
-        valor_dolares: infoContract.valor_dolares,
-        valor_contado: infoContract.valor_contado,
         email: login.email,
         login: true,
-        monto: monto
+        financiacion: newFinancing,
+
+        //cuotas: cuotasDisponibles,
+        //cuotas_ipc: infoContract.cuo_fija_ipc,
+        //saldo_ipc: infoContract.saldo_ipc,
+        //cuo_disp_ipc: cant_cuo_posible_ipc,
+        //saldo_cuo_fija: saldo_fijo,
+        //valor_cuo_fija: valor_cuota_fija,
+        //cuotas_s_int: cuotas_s_int,
+        //valor_cuo_sin_int: valor_cuo_sin_int,
+        //valor_dolares: infoContract.valor_dolares,
+        //valor_contado: infoContract.valor_contado,
+        //monto: monto
       };
     } else if (login && !pessenger) {
       pasajero = {
         nombre: login.nombre,
         apellido: login.apellido,
         dni: login.dni,
-        cuotas: cuotasDisponibles,
-        saldo_ipc: infoContract.saldo_ipc,
-        cuo_disp_ipc: cant_cuo_posible_ipc,
-        saldo_cuo_fija: saldo_fijo,
-        valor_cuo_fija: valor_cuota_fija,
-        cuotas_s_int: cuotas_s_int,
-        valor_cuo_sin_int: valor_cuo_sin_int,
-        valor_dolares: infoContract.valor_dolares,
-        valor_contado: infoContract.valor_contado,
         email: login.email,
         login: true,
-        monto: monto
+        financiacion: newFinancing,
+
+        // cuotas: cuotasDisponibles,
+        // saldo_ipc: infoContract.saldo_ipc,
+        // cuo_disp_ipc: cant_cuo_posible_ipc,
+        // saldo_cuo_fija: saldo_fijo,
+        // valor_cuo_fija: valor_cuota_fija,
+        // cuotas_s_int: cuotas_s_int,
+        // valor_cuo_sin_int: valor_cuo_sin_int,
+        // valor_dolares: infoContract.valor_dolares,
+        // valor_contado: infoContract.valor_contado,      
+        // monto: monto
       };
     } else if (!login && pessenger) {
       pasajero = {
@@ -387,17 +415,19 @@ const verifyPessegerToApp = async (req, res) => {
         apellido: pessenger.apellido,
         dni: pessenger.dni,
         email: pessenger.correo,
-        cuotas: cuotasDisponibles,
-        saldo_ipc: infoContract.saldo_ipc,
-        cuo_disp_ipc: cant_cuo_posible_ipc,
-        saldo_cuo_fija: saldo_fijo,
-        valor_cuo_fija: valor_cuota_fija,
-        cuotas_s_int: cuotas_s_int,
-        valor_cuo_sin_int: valor_cuo_sin_int,
-        valor_dolares: infoContract.valor_dolares,
-        valor_contado: infoContract.valor_contado,
-        login: "",
-        monto: monto
+        financiacion: newFinancing,
+        login: ""
+
+        // cuotas: cuotasDisponibles,
+        // saldo_ipc: infoContract.saldo_ipc,
+        // cuo_disp_ipc: cant_cuo_posible_ipc,
+        // saldo_cuo_fija: saldo_fijo,
+        // valor_cuo_fija: valor_cuota_fija,
+        // cuotas_s_int: cuotas_s_int,
+        // valor_cuo_sin_int: valor_cuo_sin_int,
+        // valor_dolares: infoContract.valor_dolares,
+        // valor_contado: infoContract.valor_contado,
+        // monto: monto
       };
     }
 
@@ -405,17 +435,19 @@ const verifyPessegerToApp = async (req, res) => {
       res.status(200).send(pasajero);
     } else {
       res.status(400).send({ message: 'No existen datos', 
-        cuotas: cuotasDisponibles,
-        saldo_ipc: infoContract.saldo_ipc,
-        cuo_disp_ipc: cant_cuo_posible_ipc,
-        saldo_cuo_fija: saldo_fijo,
-        valor_cuo_fija: valor_cuota_fija,
-        cuotas_s_int: cuotas_s_int,
-        valor_cuo_sin_int: valor_cuo_sin_int,
-        valor_dolares: infoContract.valor_dolares,
-        valor_contado: infoContract.valor_contado,
         login: "",
-        monto: monto });
+        financiacion: newFinancing,
+        // cuotas: cuotasDisponibles,
+        // saldo_ipc: infoContract.saldo_ipc,
+        // cuo_disp_ipc: cant_cuo_posible_ipc,
+        // saldo_cuo_fija: saldo_fijo,
+        // valor_cuo_fija: valor_cuota_fija,
+        // cuotas_s_int: cuotas_s_int,
+        // valor_cuo_sin_int: valor_cuo_sin_int,
+        // valor_dolares: infoContract.valor_dolares,
+        // valor_contado: infoContract.valor_contado,
+        // monto: monto 
+        });
     }
   } catch (error) {
     console.log('Algo salió mal: ', error);
