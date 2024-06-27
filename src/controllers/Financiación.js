@@ -83,23 +83,42 @@ const putFinancing = async (req, res) => {
 
 //Agregar relacion con el contrato
 const putRelacionFinancing = async (req, res) => {
-    try {
-      const num = req.params.num;
-        console.log('SOY NUM', num)
-      const financingId = req.body;   
-      console.log('SOY BODY', financingId)
-      const updateContract = await Contract.update(financingId, {
-        where: {
-          num,
-        },
-      })
-      updateContract[0] !== 0? res.status(200).send({updateContract, message:"Se agregó la financiación al contrato"}) : 
-      res.status(400).send({message:"No se pudo agregar la financiación al contrato"})
-  
-  } catch (error) { console.log("Algo salio mal: ", error); 
+  try {
+    const num = req.params.num;
+    console.log('SOY NUM', num);
+    
+    const { financingId } = req.body;  // Extrae financingId del cuerpo de la solicitud
+    console.log('SOY BODY', financingId);
+
+    if (!financingId) {
+      return res.status(400).send({ message: "financingId es requerido" });
+    }
+
+    // Verificar si financingId existe en la tabla financings
+    const id = financingId
+    const financingExists = await Financing.findByPk(id);
+    if (!financingExists) {
+      return res.status(404).send({ message: "financingId no existe en la tabla financings" });
+    }
+
+    const updateContract = await Contract.update({ financingId }, {
+      where: {
+        num,
+      },
+    });
+
+    if (updateContract[0] !== 0) {
+      res.status(200).send({ updateContract, message: "Se agregó la financiación al contrato" });
+    } else {
+      res.status(400).send({ message: "No se pudo agregar la financiación al contrato" });
+    }
+
+  } catch (error) {
+    console.log("Algo salio mal: ", error);
     res.status(500).send({ message: 'Error interno del servidor' });
   }
-  }
+};
+
 
 
 //Eliminar la financiacion

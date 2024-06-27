@@ -355,8 +355,8 @@ const verifyPessegerToApp = async (req, res) => {
     console.log('FILTRO', filteredFinancing)
     const newFinancing = filteredFinancing.map((e) => {
       if (e.cuotas === '*') {
-        e.cuotas = cuotasDisponibles; // Aquí asignas cuotasDisponibles si cuotas es '*'
-      }
+        e.cuotas = cuotasDisponibles; 
+      } else { e.cuotas = [e.cuotas]}
       return e; 
     });
     console.log('MAP', newFinancing);
