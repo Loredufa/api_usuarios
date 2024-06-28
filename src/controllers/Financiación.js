@@ -19,14 +19,14 @@ const getAllFinancingbyId = async (req, res) => {
     const id = req.params.id;
     const financ = await Financing.findByPk(id);
     financ? res.status(200).send(JSON.stringify(financ)) : 
-    res.status(401).send({ message: `Nose encontró la financiación para el id: ${id}`})
+    res.status(401).send({ message: `No se encontró la financiación para el id: ${id}`})
     
   } catch (error) { console.log("Algo salio mal: ", error); 
   res.status(500).send({ message: 'Error interno del servidor' });
 }
 }
 
-//Dar de alta un nuevo usuario
+//Dar de alta una nueva financiacion
 const addFinancing = async (req,res) => {
   try {
     const financ = req.body
@@ -98,7 +98,7 @@ const putRelacionFinancing = async (req, res) => {
     const id = financingId
     const financingExists = await Financing.findByPk(id);
     if (!financingExists) {
-      return res.status(404).send({ message: "financingId no existe en la tabla financings" });
+      return res.status(404).send({ message: "La financiacion no existe" });
     }
 
     const updateContract = await Contract.update({ financingId }, {

@@ -288,18 +288,6 @@ const verifyPessegerToApp = async (req, res) => {
          contratos: num },
     });
 
-    const idFinancing = infoContract.financingId
-    const financ = await Financing.findOne({
-      where: {
-         id: idFinancing},
-    });
-
-    const finan = financ.texto_gral
-    const financing = Object.values(finan)
-    console.log('FINANCING', financing)
-    console.log('Tipo de texto_gral:', typeof financing);
-    
-    
     if (verifyPasajero) {     
       // Acceder a la tabla intermedia Passenger_Login
     const Passenger_Login = sequelize.model('Passenger_Login');
@@ -311,12 +299,28 @@ const verifyPessegerToApp = async (req, res) => {
         loginId: id, 
       }, 
     });
+
     //SI - 201 YA ESTA ASOCIADO EL PASAJETO A ESE USUARIO
     if (passengerLoginRelation) {
       return res.status(201).json({ message: 'La relación con el pasajero ya existe, verifique su lista de pasajeros' });
     } else {
       return res.status(202).json(pessenger);
     }}
+    //Busca la financiacion del contrato
+    const idFinancing = infoContract.financingId
+
+    // Validación para verificar si no existe idFinancing
+    if (!idFinancing) {
+      return res.status(501).json({ message: 'No existe financiación para ese contrato' });
+    }
+    const financ = await Financing.findOne({
+      where: {
+         id: idFinancing},
+    });
+    //extrae la forma de pago
+    const finan = financ.texto_gral
+    const financing = Object.values(finan)
+    //Calculamos los meses disponibles hasta un mes antes de finalizar el contrato
     const nombreMes = infoContract.mes.trim();
     const año = infoContract.año.trim();
     const monto = infoContract.impTot.trim();
@@ -352,7 +356,6 @@ const verifyPessegerToApp = async (req, res) => {
 
     // Filtra los elementos que tienen disponible: true
     const filteredFinancing = financing.filter(item => item.disponible === true);
-    console.log('FILTRO', filteredFinancing)
     const newFinancing = filteredFinancing.map((e) => {
       if (e.cuotas === '*') {
         e.cuotas = cuotasDisponibles; 
