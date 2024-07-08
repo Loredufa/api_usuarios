@@ -118,6 +118,11 @@ GET: http://localhost:4002/pasajero/verify/:dni/:num
 Obtiene la informacion de la tabla intermedia por id de usuario (loginId) y retorna todos los pasajeros relacionados con este id
 GET: http://localhost:4002/pasajero/relation/:loginId
 
+
+Obtiene la informacion de la tabla intermedia por id de usuario (loginId) y contrato, retorna todos los pasajeros relacionados con este id y que pertenecen a ese contrasto
+GET: http://localhost:4002/pasajero/relationbyNum/:loginId/:num
+
+
 **Cuotas**
 
 Obtener todas las cuotas
