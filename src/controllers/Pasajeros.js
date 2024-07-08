@@ -24,6 +24,26 @@ res.status(500).send({ message: 'Error interno del servidor' });
 }
 }
 
+//Obtiene los pasajeros que estan relacionados a un usuario por idLogin y numero de contrato
+const getRelationBycontract = async (req, res) => {
+  try{
+const loginId = req.params.loginId;
+const num = req.params.num;
+// Busca el login con el ID proporcionado
+const loginInstance = await Login.findByPk(loginId);
+if (!loginInstance) {
+  res.status(400).send({ message: "No se encontró el usuario. " })
+} else {
+// Obtén la relación entre Login y Passenger
+const passengers = await loginInstance.getPassengers();
+const response = passengers.filter(e => e.contratos === num)
+res.status(200).send(JSON.stringify(response))
+}
+} catch (error) { console.log("Algo salio mal: ", error); 
+res.status(500).send({ message: 'Error interno del servidor' });
+}
+}
+
 //obtener todos los pasajeros
 const getAllPasajeros = async (req, res) => {
   try {
@@ -502,5 +522,6 @@ module.exports = {
     verifyPessegerToApp,
     deletePasajero,
     getRelationByIdLogin,
-    getPassengerById
+    getPassengerById,
+    getRelationBycontract
 }
