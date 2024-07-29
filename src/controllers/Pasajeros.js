@@ -394,7 +394,7 @@ const verifyPessegerToApp = async (req, res) => {
       pasajero = {
         nombre: login.nombre,
         apellido: login.apellido,
-        id: login.id,
+        idPasajero: pessenger.id,
         dni: login.dni,
         fechaNac: pessenger.fechaNac,
         email: login.email,
@@ -417,7 +417,6 @@ const verifyPessegerToApp = async (req, res) => {
       pasajero = {
         nombre: login.nombre,
         apellido: login.apellido,
-        id: login.id,
         dni: login.dni,
         email: login.email,
         login: true,
@@ -438,6 +437,7 @@ const verifyPessegerToApp = async (req, res) => {
       pasajero = {
         nombre: pessenger.nombre,
         apellido: pessenger.apellido,
+        idPasajero: pessenger.id,
         dni: pessenger.dni,
         email: pessenger.correo,
         financiacion: newFinancing,
