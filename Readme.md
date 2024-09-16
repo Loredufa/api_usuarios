@@ -106,9 +106,14 @@ POST: http://localhost:4002/pasajero
     }
 
 Modifica los datos del pasajero
-PUT: http://localhost:4002/pasajero/:id   
+PUT: http://localhost:4002/pasajero/datos/:id   
     body {
         "presente": "true"
+    }
+
+PUT: http://localhost:4002/pasajero/:id   
+    body {
+        "Apellido": "Herrero"
     }
 
 Verifica los datos del pasajero antes de crearlo, se utiliza para autocompletado de la app
