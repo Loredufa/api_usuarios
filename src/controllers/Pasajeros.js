@@ -148,6 +148,7 @@ const addPasajero = async (req, res) => {
 ///
     } else {
       // Crear un nuevo login y asociar el pasajero
+      console.log('nuevo login')
       const newLogin = await Login.create({
         nombre: pasajero.nombre,
         apellido: pasajero.apellido,
@@ -160,7 +161,7 @@ const addPasajero = async (req, res) => {
       });
 
       usuario = newLogin;
-
+      console.log('nuevo usuario')
       // Envía el correo electrónico
       const mail = await conectionMail(req, res, usuario);
 
@@ -260,6 +261,28 @@ const calcularNumPasajero = async (contrato) => {
         loginId: newData.loginId,
       });
     }
+    // Actualizar los datos del pasajero
+    const updateData = await Passenger.update(newData, {
+      where: {
+        id,
+      },
+    });
+    // Verificar si se pudo actualizar el pasajero
+    if (updateData[0] !== 0) {
+      res.status(200).send({ message: "Pasajero actualizado" });
+    } else {
+      res.status(400).send({ message: "No se pudo actualizar el pasajero" });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send({ message: 'Error interno del servidor' });
+  }
+};
+
+const putPessengerGral = async (req, res) => {
+  try {
+    const newData = req.body;
+    const id = req.params.id;     
     // Actualizar los datos del pasajero
     const updateData = await Passenger.update(newData, {
       where: {
@@ -525,5 +548,6 @@ module.exports = {
     deletePasajero,
     getRelationByIdLogin,
     getPassengerById,
-    getRelationBycontract
+    getRelationBycontract,
+    putPessengerGral
 }
